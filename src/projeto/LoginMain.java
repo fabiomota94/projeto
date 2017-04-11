@@ -5,34 +5,38 @@
  */
 package projeto;
 
+import Ficheiros.GuardarDados;
+import Ficheiros.LerFicheiro;
 import Publisher.Publisher;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Fábio
  */
-public class LoginMain {
-    private String tipo;
+public class LoginMain implements Serializable{
+    private int tipo;
     private String nome;
     private String pass;
-    private static int id=0;
+    private static int id=1;
     
     public LoginMain()
     {
         
-        tipo = "";
+        tipo = 0;
         nome = "";
         pass = "";
-       
+        id = id;
         
     }
 
-    public String getTipo() {
+    public int getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(int tipo) {
         this.tipo = tipo;
     }
 
@@ -51,12 +55,31 @@ public class LoginMain {
     public void setPass(String pass) {
         this.pass = pass;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        LoginMain.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginMain{" + "tipo=" + tipo + ", nome=" + nome + ", pass=" + pass + '}';
+    }
     
     
-    public static void main(String[] args) {
+    
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         //Publisher p= new Publisher();
         ArrayList<LoginMain> p1 = new ArrayList();
+        
         ArrayList<LoginMain> c1 = new ArrayList();
+        LerFicheiro LF = new LerFicheiro(); 
+         p1= LF.LerFilePublishers();
+        System.out.println(p1.toString());
+        
         while(true)
         {
         System.out.println("1 - Registar \n2 - LOG \n3 - Consumidor sem registo \n 0 - Sair");
@@ -74,9 +97,18 @@ public class LoginMain {
             pw = Ler.umaString();
             if(op == 1 )
             {
+                LoginMain publishers = new LoginMain();
+                GuardarDados gd = new GuardarDados();
+                publishers.setNome(user);
+                publishers.setPass(pw);
+                publishers.setTipo(1);
+                publishers.setId(id);
+                p1.add(publishers);
                 System.out.println("Registado como Publisher");
+                gd.SaveFilePublishers(p1);
                 id++;
                 Publisher p= new Publisher(id);
+                
             }
             if(op == 2)
             {
