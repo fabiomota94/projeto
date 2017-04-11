@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class ServerRMI {
   
-       public static ArrayList<Topico> arrayTopicos = new ArrayList();
+      
     
     public static void main(String[] argv) {
         

@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @author Fábio
  */
 public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterface{
-    public static ArrayList<Topico> d ;
+    public static ArrayList<Topico> d = new ArrayList();
     
     public ServerRMIIMP() throws RemoteException{
         
