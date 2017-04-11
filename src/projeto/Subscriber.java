@@ -11,4 +11,5 @@ package projeto;
  */
 public class Subscriber {
     
+   
 }

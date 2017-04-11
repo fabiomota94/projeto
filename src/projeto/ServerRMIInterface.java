@@ -6,13 +6,18 @@
 package projeto;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 /**
  *
  * @author Fábio
  */
-public interface ServerRMIInterface {
+public interface ServerRMIInterface extends java.rmi.Remote{
     
+   public void addTopico(String s ) throws java.rmi.RemoteException;
+   public boolean checkTopic(String s ,ArrayList<Topico> d)throws java.rmi.RemoteException;
+    
+        
     
     
     
