@@ -39,7 +39,7 @@ public class GuardarDados {
     
     public void SaveFile_Consumers (ArrayList<LoginMain> Subscritores) throws IOException,ClassNotFoundException{
             
-        File ficheiro1 = new File("consumidores.dat");
+        File ficheiro1 = new File("subscribers.dat");
         
         
         ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(ficheiro1));

@@ -11,5 +11,11 @@ package Subs;
  */
 public class Subscriber {
     
+   public Subscriber(){
    
+       System.out.println("Subscriber OK!");
+   
+   
+   }
+    
 }

@@ -17,8 +17,7 @@ import projeto.LoginMain;
  */
 public class LerFicheiro {
 
-        public ArrayList<LoginMain> LerFilePublishers() throws IOException,ClassNotFoundException
-        {
+        public ArrayList<LoginMain> LerFilePublishers() throws IOException,ClassNotFoundException {
             ArrayList<LoginMain> p1 = new ArrayList();
      
             try{           
@@ -35,6 +34,26 @@ public class LerFicheiro {
             return p1;
       
         }
+        
+        public ArrayList<LoginMain> LerFileSubscribers() throws IOException,ClassNotFoundException {
+            
+            ArrayList<LoginMain> subs = new ArrayList();
+     
+            try{           
+       
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("subscribers.dat"));
+            subs = (ArrayList<LoginMain>) ois.readObject();
+            ois.close();
+     
+            }
+            catch(IOException e){
+                System.out.println(e);
+            }
+            
+            return subs;
+      
+        }
+        
         
       
            
