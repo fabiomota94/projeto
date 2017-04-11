@@ -1,53 +1,71 @@
 
 package projeto;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  *
  * @author Fábio, João, Tiago
  */
-public class Noticias {
+public class Noticias implements Serializable{
  
      private String conteudo;
-     private Calendar data;
-     
+     //private GregorianCalendar data;
+     private int dia,mes;
     
     public Noticias (){
         
        conteudo="";
-       data = Calendar.getInstance();
+       dia  = 0 ;
+       mes = 0;
+      // data = new GregorianCalendar();
  
     } 
 
-    public Noticias(String conteudo, Calendar data) {
+    public Noticias(String conteudo ,int dia , int mes) {
         this.conteudo = conteudo;
-        this.data = data;
+        this.dia = dia;
+        this.mes = mes;
+        //this.data = data;
     }
 
     public void setConteudo(String conteudo) {
         this.conteudo = conteudo;
     }
 
-    public void setData(Calendar data) {
-        this.data = data;
-    }
-     
     
     public String getNoticia() {
         return conteudo;
     }
-    
-    
-    public Calendar getDate() {
-        return data;
+
+    public int getDia() {
+        return dia;
+    }
+
+    public int getMes() {
+        return mes;
+    }
+
+    public void setDia(int dia) {
+        this.dia = dia;
+    }
+
+    public void setMes(int mes) {
+        this.mes = mes;
     }
 
     @Override
     public String toString() {
-        return "Noticias{" + "conteudo=" + conteudo + ", data=" + data + '}';
+        return "Noticias{" + "conteudo=" + conteudo + ", dia=" + dia + ", mes=" + mes + '}';
     }
+    
+    
+ 
+   
 
+  
     
 
 }

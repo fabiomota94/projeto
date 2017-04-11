@@ -1,13 +1,14 @@
 
 package projeto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Fábio, João, Tiago
  */
-public class Topico{
+public class Topico implements Serializable{
     
     private String nometopico;
     private ArrayList<Noticias> Noticias;

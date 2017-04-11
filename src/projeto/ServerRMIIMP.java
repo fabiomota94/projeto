@@ -15,6 +15,7 @@ import java.util.ArrayList;
  * @author Fábio
  */
 public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterface{
+    
     public static ArrayList<Topico> d = new ArrayList();
     
     public ServerRMIIMP() throws RemoteException{
@@ -22,7 +23,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         super(); 
   
         }
-    public void addTopico(String s ) throws java.rmi.RemoteException
+    public boolean addTopico(String s ) throws java.rmi.RemoteException
     {
         if(checkTopic(s,d)==false)
         {
@@ -31,11 +32,13 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             d.add(c);
             
             System.out.println("Server : " + d.toString());
+            return false;
            
         }
         else
         {
             System.out.println("Já existe este topico");
+            return true;
             //adicionar noticia 
         }
         
@@ -43,10 +46,21 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
     }
     public boolean checkTopic(String s ,ArrayList<Topico> d) throws java.rmi.RemoteException
     {
-        if(d.contains(s))
-            return true;
-       else
-            return false;
+      
+            for (int i = 0; i < d.size(); i++) {
+                if(d.get(i).getNometopico().equals(s))
+                    return true;
+               
+            }
+          return false; 
+        
+       
+    }
+     public ArrayList <Topico> ConsultarTopicos() throws java.rmi.RemoteException
+    {
+        
+        
+          return d;
     }
     
     @Override
@@ -55,5 +69,28 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
     }
     
     
+    public boolean checkTopic2(String s ) throws java.rmi.RemoteException
+    {
+      
+            for (int i = 0; i < d.size(); i++) {
+                if(d.get(i).getNometopico().equals(s))
+                    return true;
+               
+            }
+          return false; 
+        
+       
+    }
+     public boolean addNoticia(Noticias noticia ,String ntopico) throws java.rmi.RemoteException
+    {
+        for (int i = 0; i < d.size(); i++) {
+                if(d.get(i).getNometopico().equals(ntopico))
+                {
+                    d.get(i).addNovaNoticia(noticia);
+                }
+        }
+        
+      return true;
+    }
     
 }
