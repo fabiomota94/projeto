@@ -5,10 +5,15 @@
  */
 package projeto;
 
+import java.rmi.RemoteException;
+
 /**
  *
  * @author Fábio
  */
 public interface ServerRMIInterface {
+    
+    
+    
     
 }
