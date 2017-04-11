@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projeto;
+package Servidores;
 
 import java.rmi.Naming;
 import java.util.ArrayList;

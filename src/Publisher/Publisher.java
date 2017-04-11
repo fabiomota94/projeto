@@ -3,22 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projeto;
+package Publisher;
 
-import java.io.Serializable;
+import Classes.Noticias;
+import Classes.Topico;
+import Servidores.ServerRMIInterface;
 import java.rmi.Naming;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
+import projeto.Ler;
 
 /**
  *
  * @author Fábio
  */
 public class Publisher {
-
-    public static void main(String[] args) {
-
+    private int id ;
+    public Publisher(int id){
+        
         ArrayList<Topico> consultar;
         System.setSecurityManager(new SecurityManager());
         try {

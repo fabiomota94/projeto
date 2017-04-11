@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projeto;
+package Subs;
 
 /**
  *
  * @author Fábio
  */
-public interface PublisherInterface {
+public interface SubscriberInterface {
     
 }
