@@ -14,20 +14,22 @@ public class Noticias implements Serializable{
      private String conteudo;
      //private GregorianCalendar data;
      private int dia,mes;
-    
+     private int autor;
     public Noticias (){
         
        conteudo="";
        dia  = 0 ;
        mes = 0;
+       autor = 0 ;
       // data = new GregorianCalendar();
  
     } 
 
-    public Noticias(String conteudo ,int dia , int mes) {
+    public Noticias(String conteudo ,int dia , int mes,int autor) {
         this.conteudo = conteudo;
         this.dia = dia;
         this.mes = mes;
+        this.autor = autor;
         //this.data = data;
     }
 

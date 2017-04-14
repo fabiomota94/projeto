@@ -34,7 +34,21 @@ public class LerFicheiro {
             return p1;
       
         }
-        
+        public int LerID() throws IOException,ClassNotFoundException {
+           
+            int idi = 0 ;
+             try{
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("id.dat"));
+           
+            idi = ois.readInt();
+            ois.close();
+             }
+           catch(IOException e){
+                System.out.println(e);
+            }
+            return idi;
+            
+        }
         public ArrayList<LoginMain> LerFileSubscribers() throws IOException,ClassNotFoundException {
             
             ArrayList<LoginMain> subs = new ArrayList();

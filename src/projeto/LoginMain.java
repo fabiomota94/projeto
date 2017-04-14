@@ -21,7 +21,7 @@ public class LoginMain implements Serializable{
     private int tipo;
     private String nome;
     private String pass;
-    private static int id=1;
+    private int id = 0;
     
     public LoginMain()
     {
@@ -29,7 +29,7 @@ public class LoginMain implements Serializable{
         tipo = 0;
         nome = "";
         pass = "";
-        id = id; // acho que temos de mandar o nome tambem
+        id ++; // acho que temos de mandar o nome tambem
         
     }
 
@@ -61,13 +61,13 @@ public class LoginMain implements Serializable{
         return id;
     }
 
-    public void setId(int id) {
-        LoginMain.id = id;
+    public void setId(int idi) {
+        this.id = idi;
     }
 
     @Override
     public String toString() {
-        return "LoginMain{" + "tipo=" + tipo + ", nome=" + nome + ", pass=" + pass + '}';
+        return "LoginMain{" + "tipo=" + tipo + ", nome=" + nome + ", pass=" + pass + " id " + id + '}';
     }
     
     
@@ -77,15 +77,17 @@ public class LoginMain implements Serializable{
         
         ArrayList<LoginMain> pub = new ArrayList(); //array de Publishers
         ArrayList<LoginMain> subs = new ArrayList(); //array de subscribers
-        
+        int idi = 0 ;
         LerFicheiro LF = new LerFicheiro(); 
         pub = LF.LerFilePublishers();
         subs = LF.LerFileSubscribers();
+        idi = LF.LerID();
         
         
         
         System.out.println(pub.toString()); //verificação apagar depois....
         System.out.println(subs.toString());
+        
         
         while(true){
         System.out.println("1 - Registar \n2 - Login \n3 - Subscribers sem registo \n0 - Sair");
@@ -108,12 +110,13 @@ public class LoginMain implements Serializable{
                 publishers.setNome(user);
                 publishers.setPass(pw);
                 publishers.setTipo(1);
-                publishers.setId(id);
+                publishers.setId(idi);
                 pub.add(publishers);
                 System.out.println("Registado como Publisher");
                 gd.SaveFilePublishers(pub);
-                id++;
-                Publisher p= new Publisher(id);
+                Publisher p= new Publisher(idi);
+                idi++;
+                gd.SaveFile_id(idi);
                 
             }
             if(op==2){
@@ -121,13 +124,14 @@ public class LoginMain implements Serializable{
                 subscribers.setNome(user);
                 subscribers.setPass(pw);
                 subscribers.setTipo(2);
-                subscribers.setId(id);
+                subscribers.setId(idi);
                 subs.add(subscribers);
                 System.out.println("Registado como consumidor");
                 gd.SaveFile_Consumers(subs);
-                id++;
                 Subscriber sub = new Subscriber();
+                idi++;
                 System.out.println("OK");
+                gd.SaveFile_id(idi);
             }
            
            

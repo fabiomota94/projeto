@@ -120,6 +120,31 @@ public class Ler {
 
     }
 
+    public static String umaNoticia() { // max lenght 180 caracteres
+        String s = "";
+     
+       
+        while(true){
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+            s = in.readLine();
+           
+            if(s.length()<=180){
+              break;
+                        }
+           
+            if(s.length()>180){
+                System.out.println("Noticia com demasiados caracteres! Tente novamente.");
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao ler a noticia.");
+         
+        }
+             
+    }
+          return s;
+    }
+    
     public static int escolha3() {
         int a;
         while (true) {
