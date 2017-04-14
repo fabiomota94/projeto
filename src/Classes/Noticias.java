@@ -2,8 +2,9 @@
 package Classes;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+
+import java.util.Date;
+
 
 /**
  *
@@ -12,7 +13,7 @@ import java.util.GregorianCalendar;
 public class Noticias implements Serializable{
  
      private String conteudo;
-     //private GregorianCalendar data;
+     private Date data;
      private int dia,mes;
      private int autor;
     public Noticias (){
@@ -21,18 +22,35 @@ public class Noticias implements Serializable{
        dia  = 0 ;
        mes = 0;
        autor = 0 ;
-      // data = new GregorianCalendar();
+       
  
     } 
 
-    public Noticias(String conteudo ,int dia , int mes,int autor) {
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
+    public int getAutor() {
+        return autor;
+    }
+
+    public void setAutor(int autor) {
+        this.autor = autor;
+    }
+
+    public Noticias(String conteudo ,int dia , int mes,int autor , Date data) {
         this.conteudo = conteudo;
         this.dia = dia;
         this.mes = mes;
         this.autor = autor;
-        //this.data = data;
+        this.data = data;
     }
 
+    
     public void setConteudo(String conteudo) {
         this.conteudo = conteudo;
     }

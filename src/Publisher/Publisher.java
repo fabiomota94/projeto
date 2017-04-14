@@ -10,6 +10,7 @@ import Classes.Topico;
 import Servidores.ServerRMIInterface;
 import java.rmi.Naming;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import projeto.Ler;
 
@@ -19,8 +20,8 @@ import projeto.Ler;
  */
 public class Publisher {
     private int id ;
-    public Publisher(int id){
-        
+    public Publisher(int idi){
+        id = idi;
         ArrayList<Topico> consultar;
         System.setSecurityManager(new SecurityManager());
         try {
@@ -50,22 +51,23 @@ public class Publisher {
                 } else if (op == 3) {
                     String s = "";
                     String s2 = "";
-                    GregorianCalendar data = new GregorianCalendar();
+                    
                     int dia, mes;
                     Noticias novanoticia = new Noticias();
                     System.out.println("Topico para adicionar noticia");
                     s = Ler.umaString();
                     if (si.checkTopic2(s) == true) {
                         System.out.println("Escreva a noticia");
-                        s2 = Ler.umaString();
-                        novanoticia.setConteudo(s2);
-                        System.out.println("Dia da publicação?");
-                        novanoticia.setDia(dia = Ler.dia());
-                        System.out.println("Mes da publicação?");
-                        novanoticia.setDia(mes = Ler.Mes());
+                        s2 = Ler.umaNoticia();
+                        Date data = new Date();
+                      
+                        System.out.println("Data " + data);
+                        novanoticia.setData(data);
+                        novanoticia.setAutor(id);
+                        System.out.println("Autor que criou foi o " + id);
                         si.addNoticia(novanoticia, s);
                         System.out.println("Noticia adicionada com sucesso");
-                        //data.get(Calendar.YEAR); para adicionar com gregorian
+                        
                     }
                     else
                         System.out.println("Topic não existe");
