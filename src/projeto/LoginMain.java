@@ -127,6 +127,7 @@ public class LoginMain implements Serializable{
                 gd.SaveFile_Consumers(subs);
                 id++;
                 Subscriber sub = new Subscriber();
+                System.out.println("OK");
             }
            
            
