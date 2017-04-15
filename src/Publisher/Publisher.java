@@ -11,7 +11,6 @@ import Servidores.ServerRMIInterface;
 import java.rmi.Naming;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import projeto.Ler;
 
 /**
@@ -52,7 +51,7 @@ public class Publisher {
                     String s = "";
                     String s2 = "";
                     
-                    int dia, mes;
+                   
                     Noticias novanoticia = new Noticias();
                     System.out.println("Topico para adicionar noticia");
                     s = Ler.umaString();

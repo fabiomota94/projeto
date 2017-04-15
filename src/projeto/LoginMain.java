@@ -17,20 +17,20 @@ import java.util.ArrayList;
  *
  * @author Fábio
  */
-public class LoginMain implements Serializable{
+public class LoginMain implements Serializable {
+
     private int tipo;
     private String nome;
     private String pass;
     private int id = 0;
-    
-    public LoginMain()
-    {
-        
+
+    public LoginMain() {
+
         tipo = 0;
         nome = "";
         pass = "";
-        id ++; // acho que temos de mandar o nome tambem
-        
+        id++; // acho que temos de mandar o nome tambem
+
     }
 
     public int getTipo() {
@@ -69,87 +69,138 @@ public class LoginMain implements Serializable{
     public String toString() {
         return "LoginMain{" + "tipo=" + tipo + ", nome=" + nome + ", pass=" + pass + " id " + id + '}';
     }
-    
-    
-    
+
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         //Publisher p= new Publisher();
-        
+
         ArrayList<LoginMain> pub = new ArrayList(); //array de Publishers
         ArrayList<LoginMain> subs = new ArrayList(); //array de subscribers
-        int idi = 0 ;
-        LerFicheiro LF = new LerFicheiro(); 
+        int idi = 0;
+        LerFicheiro LF = new LerFicheiro();
         pub = LF.LerFilePublishers();
         subs = LF.LerFileSubscribers();
         idi = LF.LerID();
-        
-        
-        
+
         System.out.println(pub.toString()); //verificação apagar depois....
         System.out.println(subs.toString());
-        
-        
-        while(true){
-        System.out.println("1 - Registar \n2 - Login \n3 - Subscribers sem registo \n0 - Sair");
-        int a = Ler.umInt(); //Ler a opçao de cima
-        int op;
-        if(a==1){
-            
-            String user ="";
-            String pw = "";
-            System.out.println("1 - Publisher \n2 - Subscribers");
-            op = Ler.umInt();
-            System.out.println("Username:");    
-            user = Ler.umaString();
-            System.out.println("Passowrd:");
-            pw = Ler.umaString();
-            GuardarDados gd = new GuardarDados();
-            
-            if(op==1){
-                LoginMain publishers = new LoginMain();
-                publishers.setNome(user);
-                publishers.setPass(pw);
-                publishers.setTipo(1);
-                publishers.setId(idi);
-                pub.add(publishers);
-                System.out.println("Registado como Publisher");
-                gd.SaveFilePublishers(pub);
-                Publisher p= new Publisher(idi);
-                idi++;
-                gd.SaveFile_id(idi);
-                
+
+        while (true) {
+            System.out.println("1 - Registar \n2 - Login \n3 - Subscribers sem registo \n0 - Sair");
+            int a = Ler.umInt(); //Ler a opçao de cima
+            int op;
+            if (a == 1) {
+
+                String user = "";
+                String pw = "";
+                System.out.println("1 - Publisher \n2 - Subscribers");
+                op = Ler.umInt();
+                System.out.println("Username:");
+                user = Ler.umaString();
+                System.out.println("Passowrd:");
+                pw = Ler.umaString();
+                GuardarDados gd = new GuardarDados();
+
+                if (op == 1) {
+                    LoginMain publishers = new LoginMain();
+                    publishers.setNome(user);
+                    publishers.setPass(pw);
+                    publishers.setTipo(1);
+                    publishers.setId(idi);
+                    pub.add(publishers);
+                    System.out.println("Registado como Publisher");
+                    gd.SaveFilePublishers(pub);
+                    idi++;
+                    gd.SaveFile_id(idi);
+
+                }
+                if (op == 2) {
+                    LoginMain subscribers = new LoginMain();
+                    subscribers.setNome(user);
+                    subscribers.setPass(pw);
+                    subscribers.setTipo(2);
+                    subscribers.setId(idi);
+                    subs.add(subscribers);
+                    System.out.println("Registado como consumidor");
+                    gd.SaveFile_Consumers(subs);
+
+                    idi++;
+                    System.out.println("OK");
+                    gd.SaveFile_id(idi);
+                }
+
             }
-            if(op==2){
-                LoginMain subscribers = new LoginMain();
-                subscribers.setNome(user);
-                subscribers.setPass(pw);
-                subscribers.setTipo(2);
-                subscribers.setId(idi);
-                subs.add(subscribers);
-                System.out.println("Registado como consumidor");
-                gd.SaveFile_Consumers(subs);
-                Subscriber sub = new Subscriber();
-                idi++;
-                System.out.println("OK");
-                gd.SaveFile_id(idi);
-            }
-           
-           
+            if (a == 2) {
+                String user = "";
+                String password = "";
+                int flag = 0;
+                int id = 0;
+                System.out.println("1 - Publisher \n2 - Consumidor");
+                op = Ler.umInt();
+                if (op == 1) {
+                    System.out.println("Username?");
+                    user = Ler.umaString();
+                    System.out.println("Size : " + pub.size());
+
+                    for (int i = 0; i < pub.size(); i++) {
+
+                        while (!pub.get(i).nome.equals(user)) {
+
+                            System.out.println("Username?");
+                            user = Ler.umaString();
+                        }
+
+                        while (!pub.get(i).pass.equals(password)) {
+
+                            System.out.println("Password?");
+                            password = Ler.umaString();
+
+                        }
+                        id = pub.get(i).id;
+                        flag++;
+                    }
+
+                    if (flag > 0) {
+
+                        Publisher p = new Publisher(id);
+                    }
+
+                }
+                if (op == 2) {
+                    System.out.println("Username?");
+                    user = Ler.umaString();
+
+                    for (int i = 0; i < subs.size(); i++) {
+                        
+                        while (!subs.get(i).nome.equals(user)) {
+
+                            System.out.println("Username?");
+                            user = Ler.umaString();
+                        }
+
+                        while (!subs.get(i).pass.equals(password)) {
+
+                            System.out.println("Password?");
+                            password = Ler.umaString();
+
+                        }
+                            id = subs.get(i).id;
+                            flag++;
+                        }
+
+                    }
+                    if (flag > 0) {
+                        Subscriber sub = new Subscriber();
+
+                    }
+                }
+               
+                if (a == 3) {
+
+                }
+                if (a == 0) {
+                    break;
+                }         
         }
-        if(a==2){
-            System.out.println("1 - Publisher 2 - Consumidor");
-            op = Ler.umInt();   
-        
-        
-        }
-        if(a==3){
-           
-        
-        
-        }
-        if(a==0){
-            break;
-        }
-      }
+
     }
 }
