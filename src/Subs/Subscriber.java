@@ -7,19 +7,37 @@ package Subs;
 
 import Classes.Noticias;
 import Servidores.ServerRMIInterface;
-
 import java.rmi.Naming;
-
+import java.rmi.RemoteException;
 import projeto.Ler;
 
 /**
  *
- * @author Fábio
+ * @author Fábio, Tiago, 
  */
-public class Subscriber {
-    private int id ;
-   public Subscriber(int tipo){
-      id = tipo;
+public class Subscriber extends java.rmi.server.UnicastRemoteObject implements SubscriberInterface{
+    
+    private int id;
+    private int tipo ;
+    
+    public Subscriber() throws RemoteException{
+        
+        super();
+        
+    } 
+    
+    
+    public void EscreverNoticia (Noticias n) throws java.rmi.RemoteException{
+        
+        
+        System.out.println(n.toString());
+         
+        
+    }
+    
+   public Subscriber(int tip,int idi) throws RemoteException {
+      this.tipo = tip;
+      this.id= idi;
        System.setSecurityManager(new SecurityManager());
         
         try {
@@ -27,11 +45,34 @@ public class Subscriber {
        
          
        System.out.println("Subscriber:");
-       if(id == 2)
+       if(tipo == 2) //SUBS COM REGISGO
        {
-           //subs com registo
+           while(true)
+           {
+               
+           int opcao =0;
+           Noticias noticia;
+
+           System.out.println("1 - Subscrever um tópico");
+           System.out.println("2 - Constular Noticia de um topico");
+           System.out.println("3 - Consultar a Ultima noticia do Topico");
+           System.out.println("0 - Sair");
+           opcao = Ler.umInt();
+           if(opcao == 1)
+           {
+               System.out.println("1 - Subscrever um tópico");
+               String nt = Ler.umaString();
+               Subscriber sub = new Subscriber();
+               si.subscribe(nt, (SubscriberInterface) sub);
+               System.out.println("Topico Subscrito");
+               
+           }
+           else if(opcao==0)
+               break;
+           }
+           
        }
-       if(id == 3)
+       else if(tipo == 3) //SUBS SEM REGISTO
        {
            while(true)
            {
@@ -48,7 +89,7 @@ public class Subscriber {
                noticia = si.UltimaNoticia(nometopico);
                System.out.println(noticia.toString());
            }
-           if(opcao==0)
+           else if(opcao==0)
                break;
            }
        }

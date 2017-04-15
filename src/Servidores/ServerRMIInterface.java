@@ -9,6 +9,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import Classes.Noticias;
 import Classes.Topico;
+import Subs.Subscriber;
+import Subs.SubscriberInterface;
 
 /**
  *
@@ -23,5 +25,6 @@ public interface ServerRMIInterface extends java.rmi.Remote{
    public boolean checkTopic2(String s ) throws java.rmi.RemoteException;    
    public boolean addNoticia(Noticias noticia ,String ntopico) throws java.rmi.RemoteException;
    public Noticias UltimaNoticia(String nometopico) throws java.rmi.RemoteException;
+   public void subscribe (String tp, SubscriberInterface subs) throws java.rmi.RemoteException;
     
 }

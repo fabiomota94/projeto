@@ -5,7 +5,7 @@
  */
 package Servidores;
 
-import java.rmi.Naming;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -13,8 +13,9 @@ import Classes.Noticias;
 import Classes.Topico;
 import Ficheiros.GuardarDados;
 import Ficheiros.LerFicheiro;
+import Subs.Subscriber;
+import Subs.SubscriberInterface;
 import java.io.IOException;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,6 +34,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         
         super(); 
         d = lf.LerTopico();
+        System.out.println(d.toString());
         }
     public boolean addTopico(String s ) throws java.rmi.RemoteException 
     {
@@ -105,9 +107,15 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
        
     }
      public boolean addNoticia(Noticias noticia ,String ntopico) throws java.rmi.RemoteException{
-        for (int i = 0; i < d.size(); i++) {
+        
+         ArrayList<SubscriberInterface> subscribersn = null;
+         int posicao=0;
+         
+         
+         for (int i = 0; i < d.size(); i++) {
                 if(d.get(i).getNometopico().equals(ntopico))
-                {
+                {   
+                    posicao=i;
                     d.get(i).addNovaNoticia(noticia);
                 }
         }
@@ -118,6 +126,21 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
             }
+              
+         subscribersn = d.get(posicao).getSUBS();
+         
+         for (int i = 0; i < subscribersn.size(); i++) {
+             
+            try{
+                System.out.println("A enviar para o subs "+ subscribersn.get(i).toString());
+                subscribersn.get(i).EscreverNoticia(noticia);
+            }
+             catch(Exception e)
+             {
+                 System.out.println("Cliente offline");
+             }
+         }
+        
         
       return true;
     }
@@ -168,8 +191,24 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         }
        return null;
     }
+    
+    
+    public void subscribe (String tp, SubscriberInterface subs) throws java.rmi.RemoteException
+    {
         
-        
+        for (int i = 0; i < d.size(); i++) {
+            
+            if (d.get(i).getNometopico().equals(tp)){
+                
+                d.get(i).addSub(subs);
+            }
+
+        } 
+   
+    }
+    
+     
+     
   }
      
     

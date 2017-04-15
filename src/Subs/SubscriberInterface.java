@@ -5,10 +5,14 @@
  */
 package Subs;
 
+import Classes.Noticias;
+
 /**
  *
  * @author Fábio
  */
-public interface SubscriberInterface {
+public interface SubscriberInterface extends java.rmi.Remote {
+    
+    public void EscreverNoticia (Noticias n) throws java.rmi.RemoteException;
     
 }

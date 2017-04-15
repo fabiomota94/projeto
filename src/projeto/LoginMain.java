@@ -87,9 +87,9 @@ public class LoginMain implements Serializable {
         while (true) {
             System.out.println("1 - Registar \n2 - Login \n3 - Subscribers sem registo \n0 - Sair");
             int a = Ler.umInt(); //Ler a opçao de cima
-            int op;
+            
             if (a == 1) {
-
+                int op;
                 String user = "";
                 String pw = "";
                 System.out.println("1 - Publisher \n2 - Subscribers");
@@ -130,6 +130,7 @@ public class LoginMain implements Serializable {
 
             }
             if (a == 2) {
+                int op;
                 String user = "";
                 String password = "";
                 int flag = 0;
@@ -166,7 +167,7 @@ public class LoginMain implements Serializable {
                     }
 
                 }
-                if (op == 2) {
+                else if (op == 2) {
                     //LOGIN
                     flag=0;
                     System.out.println("Username?");
@@ -180,7 +181,8 @@ public class LoginMain implements Serializable {
                              password = Ler.umaString();
                              if(subs.get(i).pass.equals(password))
                              {
-                               //id = pub.get(i).id;
+                                 
+                               id = subs.get(id).getId();
                                flag++;  
                              }
                              else
@@ -191,18 +193,17 @@ public class LoginMain implements Serializable {
 
                     }
                     if (flag > 0) {
-                        Subscriber sub = new Subscriber(2);
-
+                        Subscriber sub = new Subscriber(2,id);
+                        break;
                     }
                 }
             } 
-                if (a == 3) {
-                    Subscriber sub = new Subscriber(a);
-                }
-                if (a == 0) {
+            else if (a == 3) {
+                    Subscriber sub = new Subscriber(3,-1);
+          }
+            else if (a == 0)
                       break;
-                }         
-
+               
     }
 }
 }
