@@ -38,7 +38,7 @@ public class LerFicheiro {
            
             int idi = 0 ;
              try{
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("id.dat"));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("ids.dat"));
            
             idi = ois.readInt();
             ois.close();

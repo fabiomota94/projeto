@@ -20,12 +20,17 @@ import projeto.Ler;
 public class Publisher {
     private int id ;
     public Publisher(int idi){
+        
         id = idi;
-        ArrayList<Topico> consultar;
+        ArrayList<Topico> consultar=null;
+        
+        
+        
         System.setSecurityManager(new SecurityManager());
+        
         try {
             ServerRMIInterface si = (ServerRMIInterface) Naming.lookup("rmi://127.0.0.1:1099/ServerRMI");
-            //Publisher p = new Publisher();
+            
 
             while (true) {
                 System.out.println("Publisher\n1 - Add topico \n2 - Consultar Tópicos Existentes \n3 - Inserir Noticia em Topico \n4 - Consultar  Todas as noticias Publicadas");
@@ -41,13 +46,17 @@ public class Publisher {
                     }
                     System.out.println("Topico adicionado");
 
-                } else if (op == 2) {
+                } 
+                else if (op == 2) 
+                {
                     consultar = si.ConsultarTopicos();
                     System.out.println("Topicos Existentes:");
                     for (int i = 0; i < consultar.size(); i++) {
                         System.out.println(consultar.get(i).getNometopico());
                     }
-                } else if (op == 3) {
+                } 
+                else if (op == 3) 
+                {
                     String s = "";
                     String s2 = "";
                     
@@ -63,6 +72,7 @@ public class Publisher {
                         System.out.println("Data " + data);
                         novanoticia.setData(data);
                         novanoticia.setAutor(id);
+                        novanoticia.setConteudo(s2);
                         System.out.println("Autor que criou foi o " + id);
                         si.addNoticia(novanoticia, s);
                         System.out.println("Noticia adicionada com sucesso");
@@ -72,12 +82,18 @@ public class Publisher {
                         System.out.println("Topic não existe");
                     
                     
-                } else if (op == 4) {
-                    
-
-                    
                 } 
-                else {
+                else if (op == 4) {
+                    
+                    ArrayList <Noticias> nconsultar;
+                    System.out.println("Vamos consultar as noticias do publisher com o id " + id);
+                    nconsultar = si.ConsultarNoticisPub(id);
+                    
+                    System.out.println(nconsultar.toString());
+                    
+                  
+                } 
+                else if(op == 0){
                     break;
                 }
 

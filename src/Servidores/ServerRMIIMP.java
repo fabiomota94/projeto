@@ -83,8 +83,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         
        
     }
-     public boolean addNoticia(Noticias noticia ,String ntopico) throws java.rmi.RemoteException
-    {
+     public boolean addNoticia(Noticias noticia ,String ntopico) throws java.rmi.RemoteException{
         for (int i = 0; i < d.size(); i++) {
                 if(d.get(i).getNometopico().equals(ntopico))
                 {
@@ -94,5 +93,39 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         
       return true;
     }
+     
+    public ArrayList<Noticias> ConsultarNoticisPub(int id) throws java.rmi.RemoteException{
+        
+        System.out.println("Mostrar Topcios");    
+        System.out.println(d.toString());
+        
+        ArrayList<Noticias> n;
+        ArrayList<Noticias> n1 = new ArrayList();
+        
+        for (int i = 0; i < d.size(); i++) {
+            
+            System.out.println("Noticia " + d.get(i).getNoticias());
+            n = d.get(i).getNoticias();
+             System.out.println("N : " + n.toString());   
+            for (int j = 0; j < n.size(); j++) {
+                
+                if (n.get(j).getAutor()==id)
+                {
+                    n1.add(n.get(j));
+                }
+                
+                
+            }
+                    
+            }
+        
+        
+        return n1;
+    }
     
-}
+        
+        
+  }
+     
+    
+

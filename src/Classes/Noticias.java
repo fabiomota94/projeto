@@ -14,17 +14,21 @@ public class Noticias implements Serializable{
  
      private String conteudo;
      private Date data;
-     private int dia,mes;
      private int autor;
     public Noticias (){
         
        conteudo="";
-       dia  = 0 ;
-       mes = 0;
+       data = null;
        autor = 0 ;
        
  
     } 
+    
+     public Noticias(String conteudo ,int autor , Date data) {
+        this.conteudo = conteudo;
+        this.autor = autor;
+        this.data = data;
+    }
 
     public Date getData() {
         return data;
@@ -42,13 +46,7 @@ public class Noticias implements Serializable{
         this.autor = autor;
     }
 
-    public Noticias(String conteudo ,int dia , int mes,int autor , Date data) {
-        this.conteudo = conteudo;
-        this.dia = dia;
-        this.mes = mes;
-        this.autor = autor;
-        this.data = data;
-    }
+   
 
     
     public void setConteudo(String conteudo) {
@@ -60,26 +58,12 @@ public class Noticias implements Serializable{
         return conteudo;
     }
 
-    public int getDia() {
-        return dia;
-    }
-
-    public int getMes() {
-        return mes;
-    }
-
-    public void setDia(int dia) {
-        this.dia = dia;
-    }
-
-    public void setMes(int mes) {
-        this.mes = mes;
-    }
-
     @Override
     public String toString() {
-        return "Noticias{" + "conteudo=" + conteudo + ", dia=" + dia + ", mes=" + mes + '}';
+        return "Noticias{" + "conteudo=" + conteudo + ", data=" + data + ", autor=" + autor + '}';
     }
+
+
     
     
  

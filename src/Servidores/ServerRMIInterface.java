@@ -19,6 +19,7 @@ public interface ServerRMIInterface extends java.rmi.Remote{
    public boolean addTopico(String s ) throws java.rmi.RemoteException;
    public boolean checkTopic(String s ,ArrayList<Topico> d)throws java.rmi.RemoteException;
    public ArrayList <Topico> ConsultarTopicos() throws java.rmi.RemoteException;
+   public ArrayList<Noticias> ConsultarNoticisPub(int id) throws java.rmi.RemoteException;
    public boolean checkTopic2(String s ) throws java.rmi.RemoteException;    
    public boolean addNoticia(Noticias noticia ,String ntopico) throws java.rmi.RemoteException;
     

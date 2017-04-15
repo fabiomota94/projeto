@@ -39,6 +39,11 @@ public class Topico implements Serializable{
         
        this.Noticias.add(NewNoticia);
     }
+
+    public ArrayList<Noticias> getNoticias() {
+        return Noticias;
+    }
+    
     
      public String getNometopico() {
         return nometopico;

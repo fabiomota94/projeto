@@ -134,58 +134,60 @@ public class LoginMain implements Serializable {
                 String password = "";
                 int flag = 0;
                 int id = 0;
-                System.out.println("1 - Publisher \n2 - Consumidor");
+                System.out.println("1 - Publisher \n2 - Subscriber");
                 op = Ler.umInt();
                 if (op == 1) {
+                   flag=0;
                     System.out.println("Username?");
                     user = Ler.umaString();
-                    System.out.println("Size : " + pub.size());
 
                     for (int i = 0; i < pub.size(); i++) {
 
-                        while (!pub.get(i).nome.equals(user)) {
+                         if(pub.get(i).nome.equals(user))//user encontrado
+                         {
+                             System.out.println("Password?");
+                             password = Ler.umaString();
+                             if(pub.get(i).pass.equals(password))
+                             {
+                               id = pub.get(i).id;
+                               flag++;  
+                             }
+                             else
+                             {
+                                 System.out.println("Password errada");
+                             }
+                         } 
 
-                            System.out.println("Username?");
-                            user = Ler.umaString();
-                        }
-
-                        while (!pub.get(i).pass.equals(password)) {
-
-                            System.out.println("Password?");
-                            password = Ler.umaString();
-
-                        }
-                        id = pub.get(i).id;
-                        flag++;
                     }
 
                     if (flag > 0) {
-
+                        System.out.println("ID DO PUBLISHER  "+ id);
                         Publisher p = new Publisher(id);
                     }
 
                 }
                 if (op == 2) {
+                    //LOGIN
+                    flag=0;
                     System.out.println("Username?");
                     user = Ler.umaString();
 
                     for (int i = 0; i < subs.size(); i++) {
                         
-                        while (!subs.get(i).nome.equals(user)) {
-
-                            System.out.println("Username?");
-                            user = Ler.umaString();
-                        }
-
-                        while (!subs.get(i).pass.equals(password)) {
-
-                            System.out.println("Password?");
-                            password = Ler.umaString();
-
-                        }
-                            id = subs.get(i).id;
-                            flag++;
-                        }
+                        if(subs.get(i).nome.equals(user))//user encontrado
+                         {
+                             System.out.println("Password?");
+                             password = Ler.umaString();
+                             if(subs.get(i).pass.equals(password))
+                             {
+                               //id = pub.get(i).id;
+                               flag++;  
+                             }
+                             else
+                             {
+                                 System.out.println("Password errada");
+                             }
+                         } 
 
                     }
                     if (flag > 0) {
@@ -193,14 +195,14 @@ public class LoginMain implements Serializable {
 
                     }
                 }
-               
+            } 
                 if (a == 3) {
 
                 }
                 if (a == 0) {
-                    break;
+                      break;
                 }         
-        }
 
     }
+}
 }
