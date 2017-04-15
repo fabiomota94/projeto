@@ -5,6 +5,7 @@
  */
 package Ficheiros;
 
+import Classes.Topico;
 import Publisher.Publisher;
 import Subs.Subscriber;
 import java.io.File;
@@ -58,7 +59,16 @@ public class GuardarDados {
         os.flush();
         os.close();
     }
-     
+     public void guardartop (ArrayList<Topico> topicos) throws IOException,ClassNotFoundException{
+            
+        File ficheiro1 = new File("topicos.dat");
+        
+        
+        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(ficheiro1));
+        os.writeObject(topicos);
+        os.flush();
+        os.close();
+    }
     
     
     

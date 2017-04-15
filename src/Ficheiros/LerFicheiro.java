@@ -5,6 +5,7 @@
  */
 package Ficheiros;
 
+import Classes.Topico;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -68,6 +69,24 @@ public class LerFicheiro {
       
         }
         
+         public ArrayList<Topico> LerTopico() throws IOException,ClassNotFoundException {
+            
+            ArrayList<Topico> tops = new ArrayList();
+     
+            try{           
+       
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("topicos.dat"));
+            tops = (ArrayList<Topico>) ois.readObject();
+            ois.close();
+     
+            }
+            catch(IOException e){
+                System.out.println(e);
+            }
+            
+            return tops;
+      
+        }
         
       
            
