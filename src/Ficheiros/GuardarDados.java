@@ -6,14 +6,12 @@
 package Ficheiros;
 
 import Classes.Topico;
-import Publisher.Publisher;
-import Subs.Subscriber;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Vector;
+
 import projeto.LoginMain;
 
 /**

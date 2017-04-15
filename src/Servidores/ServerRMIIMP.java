@@ -11,6 +11,11 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import Classes.Noticias;
 import Classes.Topico;
+import Ficheiros.GuardarDados;
+import Ficheiros.LerFicheiro;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,19 +24,33 @@ import Classes.Topico;
 public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterface{
     
     public static ArrayList<Topico> d = new ArrayList();
-    
-    public ServerRMIIMP() throws RemoteException{
+     LerFicheiro lf = new LerFicheiro();
+     GuardarDados gd = new GuardarDados();
+       
+    public ServerRMIIMP() throws RemoteException, IOException, ClassNotFoundException{
+        
         
         super(); 
-  
+        d = lf.LerTopico();
         }
-    public boolean addTopico(String s ) throws java.rmi.RemoteException
+    public boolean addTopico(String s ) throws java.rmi.RemoteException 
     {
+       
+        
         if(checkTopic(s,d)==false)
         {
             Topico c = new Topico();
             c.setNomeTopico(s);
             d.add(c);
+            try {
+                gd.guardartop(d);
+            } catch (IOException ex) {
+                Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
             
             System.out.println("Server : " + d.toString());
             return false;
@@ -40,8 +59,9 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         else
         {
             System.out.println("Já existe este topico");
+            
             return true;
-            //adicionar noticia 
+            
         }
         
       
@@ -90,6 +110,13 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
                     d.get(i).addNovaNoticia(noticia);
                 }
         }
+        try {
+                gd.guardartop(d);
+            } catch (IOException ex) {
+                Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+            }
         
       return true;
     }
