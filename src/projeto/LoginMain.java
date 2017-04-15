@@ -87,7 +87,7 @@ public class LoginMain implements Serializable {
         while (true) {
             System.out.println("1 - Registar \n2 - Login \n3 - Subscribers sem registo \n0 - Sair");
             int a = Ler.umInt(); //Ler a opçao de cima
-            
+            System.out.println("Opcao no login "+ a);
             if (a == 1) {
                 int op;
                 String user = "";
@@ -194,16 +194,20 @@ public class LoginMain implements Serializable {
                     }
                     if (flag > 0) {
                         Subscriber sub = new Subscriber(2,id);
-                        break;
                     }
                 }
             } 
             else if (a == 3) {
-                    Subscriber sub = new Subscriber(3,-1);
+                    Subscriber sub = new Subscriber(3);
           }
             else if (a == 0)
-                      break;
-               
+            {
+                    System.out.println("A = 0 ");
+                     break;
+                    
+            }  
     }
-}
+        System.out.println("SAIU DO WHILE E FICOU AQUI ");
+        
+    }
 }
