@@ -14,6 +14,7 @@ import Classes.Topico;
 import Ficheiros.GuardarDados;
 import Ficheiros.LerFicheiro;
 import java.io.IOException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -150,6 +151,23 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         return n1;
     }
     
+    public Noticias UltimaNoticia(String nometopico)
+    {
+        ArrayList<Noticias> n = new ArrayList<Noticias>();
+        for(int i = 0 ;i<d.size();i++)
+        {
+            if(d.get(i).getNometopico().equals(nometopico))
+            {
+                
+                n = d.get(i).getNoticias();
+                return n.get(n.size() - 1);
+                    
+               
+            }
+            
+        }
+       return null;
+    }
         
         
   }

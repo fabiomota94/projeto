@@ -191,13 +191,13 @@ public class LoginMain implements Serializable {
 
                     }
                     if (flag > 0) {
-                        Subscriber sub = new Subscriber();
+                        Subscriber sub = new Subscriber(2);
 
                     }
                 }
             } 
                 if (a == 3) {
-
+                    Subscriber sub = new Subscriber(a);
                 }
                 if (a == 0) {
                       break;
