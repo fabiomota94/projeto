@@ -213,7 +213,7 @@ public class LoginMain implements Serializable {
     }
         if(flag3>0){
             System.out.println("Volte Sempre!");
-            //exit(0);
+            exit(0);
         }
         
         

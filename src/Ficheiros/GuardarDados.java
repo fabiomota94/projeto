@@ -67,6 +67,16 @@ public class GuardarDados {
         os.flush();
         os.close();
     }
+      public void guardarbackup (ArrayList<Topico> topicos) throws IOException,ClassNotFoundException{
+            
+        File ficheiro1 = new File("topicosbackup.dat");
+        
+        
+        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(ficheiro1));
+        os.writeObject(topicos);
+        os.flush();
+        os.close();
+    }
     
      
     

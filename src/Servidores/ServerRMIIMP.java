@@ -26,15 +26,17 @@ import java.util.logging.Logger;
 public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterface{
     
     public static ArrayList<Topico> d = new ArrayList();
+    public static ArrayList<Topico> topbackup = new ArrayList();
      LerFicheiro lf = new LerFicheiro();
      GuardarDados gd = new GuardarDados();
-     int max = 
+     public int max ;
        
     public ServerRMIIMP() throws RemoteException, IOException, ClassNotFoundException{
         
         
         super(); 
         d = lf.LerTopico();
+        topbackup = lf.LerBackup();
         System.out.println(d.toString());
         }
     public boolean addTopico(String s ) throws java.rmi.RemoteException 
@@ -46,8 +48,10 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             Topico c = new Topico();
             c.setNomeTopico(s);
             d.add(c);
+            topbackup.add(c);
             try {
                 gd.guardartop(d);
+                gd.guardarbackup(topbackup);
             } catch (IOException ex) {
                 Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -110,6 +114,11 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
      public boolean addNoticia(Noticias noticia ,String ntopico) throws java.rmi.RemoteException{
         
          ArrayList<SubscriberInterface> subscribersn = null;
+    
+         
+       
+       
+         
          int posicao=0;
          
          
@@ -118,6 +127,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
                 {   
                     posicao=i;
                     d.get(i).addNovaNoticia(noticia);
+                    System.out.println("Adicionado ao Array D a noticia " + noticia.toString());
                 }
         }
         try {
@@ -127,7 +137,9 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
             }
-              
+           
+        
+        //Verificação de subscribers
          subscribersn = d.get(posicao).getSUBS();
          
          for (int i = 0; i < subscribersn.size(); i++) {
@@ -141,8 +153,74 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
                  System.out.println("Cliente offline");
              }
          }
-        
-        
+         
+         
+         //verificação de backup
+       
+         
+         
+         int posicao2=-1;
+         try {
+            topbackup = lf.LerBackup();
+            max = lf.LerLimite();
+            System.out.println("MAX LIDO " + max);
+            System.out.println("Antes");
+            System.out.println("D " + d.toString());
+            System.out.println("Backup " + topbackup.toString());
+            
+           
+            int flag = 0 ;
+            int sizenoticias = d.get(posicao).getNoticias().size();
+            int mx = (max/2);
+            int sizedobackup = topbackup.size();
+            System.out.println("\n sizedobackup= " + sizedobackup + "\n");
+            for(int i = 0 ;i<sizedobackup;i++)
+            {
+                System.out.println("POS: " + i + " " + topbackup.get(i).toString());
+            }
+            if(sizedobackup>0)
+            {
+                //procuramos o topico
+                for(int i = 0 ;i<sizedobackup;i++)
+                {
+                    //Posicao onde esta topico
+                    if(topbackup.get(i).getNometopico().equals(ntopico))
+                    {
+                        flag++;
+                        posicao2 = i;
+                    }
+                    
+                }
+                //encontramos o topico
+                if(flag>0)
+                {
+                    
+                    System.out.println("Tamanho Noticias "+ sizenoticias);
+                    if(sizenoticias>mx)
+                    {
+                        while(sizenoticias>mx)
+                        {
+                          topbackup.get(posicao2).addNovaNoticia(d.get(posicao).getNoticias().get(0));
+                          d.get(posicao).getNoticias().remove(0);
+                          sizenoticias = d.get(posicao).getNoticias().size();
+                          gd.guardartop(d);
+                          gd.guardarbackup(topbackup);
+                        }
+                        
+                    }
+                    
+                }
+            }  
+
+        } catch (IOException ex) {
+            Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         System.out.println("\nDepois");
+         System.out.println("D " + d.toString());
+         System.out.println("Backup " + topbackup.toString());  
+       
       return true;
     }
      
