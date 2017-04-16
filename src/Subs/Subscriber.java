@@ -10,6 +10,8 @@ import Servidores.ServerRMIInterface;
 import java.io.Serializable;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+
+import java.rmi.registry.*;
 import projeto.Ler;
 
 /**
@@ -20,7 +22,8 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
     
     private int id;
     private int tipo ;
-    
+    public Registry registry;
+    public String serverName ;
     public Subscriber() throws RemoteException{
         
         super();
@@ -40,8 +43,9 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
          System.setSecurityManager(new SecurityManager());
         
         try {
-           ServerRMIInterface si = (ServerRMIInterface) Naming.lookup("rmi://127.0.0.1:1099/ServerRMI");
-          
+           ServerRMIInterface si = (ServerRMIInterface) this.registry.lookup("rmi://127.0.0.1:1099/ServerRMI");
+           serverName = java.net.InetAddress.getLocalHost().getHostName();
+           
         while(true)
            {
            int opcao =0;
