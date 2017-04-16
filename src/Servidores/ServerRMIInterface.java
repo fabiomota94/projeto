@@ -11,6 +11,7 @@ import Classes.Noticias;
 import Classes.Topico;
 import Subs.Subscriber;
 import Subs.SubscriberInterface;
+import java.util.Date;
 
 /**
  *
@@ -26,5 +27,6 @@ public interface ServerRMIInterface extends java.rmi.Remote{
    public boolean addNoticia(Noticias noticia ,String ntopico) throws java.rmi.RemoteException;
    public Noticias UltimaNoticia(String nometopico) throws java.rmi.RemoteException;
    public void subscribe (String tp, SubscriberInterface subs) throws java.rmi.RemoteException;
+   public ArrayList<Noticias> MostarNoticiasEntreDatas (String nomeTopico, Date dataMaisRecente, Date dataMaisVelha)throws java.rmi.RemoteException;
     
 }

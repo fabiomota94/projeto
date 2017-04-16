@@ -205,7 +205,7 @@ public class LoginMain implements Serializable {
             else if (a == 0)
             {
                 
-                    System.out.println("A = 0 ");
+                    //System.out.println("A = 0 ");
                     flag3++;
                      break;
                     
