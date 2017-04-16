@@ -5,9 +5,12 @@
  */
 package BackUpServer;
 
+import Classes.Topico;
+import Ficheiros.LerFicheiro;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,10 +24,12 @@ public class ServidorBackup{
          ServerSocket servers = null;
          Socket s;
          Connection t;
+         ArrayList <Topico> topicosbackup = new ArrayList();
+         LerFicheiro lf = new LerFicheiro();
   
-        // ler no ficheiro ficheiro back
-        
-        //ObjectInputStream ois = new ObjectInputStream(new FileInputStream("aluno.dat"));
+         // ler no ficheiro ficheiro back
+         
+         topicosbackup = lf.LerBackup();
          
 
         servers = new ServerSocket (2222);
@@ -33,7 +38,7 @@ public class ServidorBackup{
             while (true) {
                 
                 s = servers.accept();
-                t = new Connection ();
+                t = new Connection (s,topicosbackup);
                 
             } 
         }
