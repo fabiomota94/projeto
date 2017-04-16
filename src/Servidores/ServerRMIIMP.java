@@ -16,6 +16,7 @@ import Ficheiros.LerFicheiro;
 import Subs.Subscriber;
 import Subs.SubscriberInterface;
 import java.io.IOException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,7 +29,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
     public static ArrayList<Topico> d = new ArrayList();
      LerFicheiro lf = new LerFicheiro();
      GuardarDados gd = new GuardarDados();
-     int max = 
+     
        
     public ServerRMIIMP() throws RemoteException, IOException, ClassNotFoundException{
         
@@ -209,8 +210,42 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
     }
     
      
-     
+     public ArrayList<Noticias> MostarNoticiasEntreDatas (String nomeTopico, Date dataMaisRecente, Date dataMaisAntiga)throws java.rmi.RemoteException{
+         
+         ArrayList<Noticias> noticiasResult = new ArrayList<Noticias>();
+         ArrayList<Noticias> noticias = new ArrayList<Noticias>();
+         
+         for(int i = 0 ;i<d.size();i++)//verificar
+        {
+            if(d.get(i).getNometopico().equals(nomeTopico))
+            {
+                
+                noticias = d.get(i).getNoticias();
+               
+            }
+            
+        }
+         // depois de ter as noticias todas daquele topico no ArrayList noticias, vamos filtrar pela DATA
+         //a ultima é a mais velha
+         //primeira é a mais recente
+         
+         System.out.println("DATA MAIS RECENTE " + dataMaisRecente.toString());
+         
+         System.out.println("DATA MAIS ANTIGAA " + dataMaisAntiga.toString());
+         
+         for (int i = 0; i < noticias.size(); i++) {
+             
+                if(dataMaisRecente.before(noticias.get(i).getData()) && dataMaisAntiga.after(noticias.get(i).getData())){
+                    System.out.println("\npassou aqui alguma ves?\n");
+                    noticiasResult.add(noticias.get(i));
+                    
+                }
+        
+         
+         
+     }
+   
+         return noticiasResult;
   }
      
-    
-
+}

@@ -14,5 +14,5 @@ import Classes.Noticias;
 public interface SubscriberInterface extends java.rmi.Remote {
     
     public void EscreverNoticia (Noticias n) throws java.rmi.RemoteException;
-    
+   
 }

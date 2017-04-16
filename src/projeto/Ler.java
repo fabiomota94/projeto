@@ -22,7 +22,7 @@ public class Ler {
             s = in.readLine();
         } catch (IOException e) {
             System.out.println("Erro ao ler fluxo de entrada.");
-            System.out.println("Tente novamente\n");
+            System.out.println("Tente novamente");
         }
         return s;
     }
@@ -32,8 +32,8 @@ public class Ler {
             try {
                 return Integer.valueOf(umaString().trim()).intValue();
             } catch (Exception e) {
-                System.out.println("Não é um inteiro válido!!!\n");
-                System.out.println("Tente novamente\n");
+                System.out.println("Não é um inteiro válido!!!");
+                System.out.println("Tente novamente");
             }
         }
     }
@@ -44,7 +44,7 @@ public class Ler {
                 return Double.valueOf(umaString().trim()).intValue();
             } catch (Exception e) {
                 System.out.println("Não é um Double válido!!!");
-                System.out.println("Tente novamente\n");
+                System.out.println("Tente novamente");
             }
         }
     }
@@ -55,7 +55,7 @@ public class Ler {
                 return Boolean.valueOf(umaString().trim()).booleanValue();
             } catch (Exception e) {
                 System.out.println("Não é um Bool válido!!!");
-                System.out.println("Tente novamente\n");
+                System.out.println("Tente novamente");
             }
         }
     }
@@ -66,7 +66,7 @@ public class Ler {
                 return Float.valueOf(umaString().trim()).intValue();
             } catch (Exception e) {
                 System.out.println("Não é um Double válido!!!");
-                System.out.println("Tente novamente\n");
+                System.out.println("Tente novamente");
             }
         }
     }
@@ -77,7 +77,7 @@ public class Ler {
                 return umaString().trim().charAt(0);
             } catch (Exception e) {
                 System.out.println("Não é um Char válido!!!");
-                System.out.println("Tente novamente\n");
+                System.out.println("Tente novamente");
             }
         }
     }
@@ -94,8 +94,8 @@ public class Ler {
                 } while (a < 0 | a > 1);
                 return a;
             } catch (Exception e) {
-                System.out.println("Não é um inteiro válido!!!\n");
-                System.out.println("Tente novamente\n");
+                System.out.println("Não é um inteiro válido!!!");
+                System.out.println("Tente novamente");
             }
         }
 
@@ -113,8 +113,8 @@ public class Ler {
                 } while (a < 0 | a > 2);
                 return a;
             } catch (Exception e) {
-                System.out.println("Não é um inteiro válido!!!\n");
-                System.out.println("Tente novamente\n");
+                System.out.println("Não é um inteiro válido!!!");
+                System.out.println("Tente novamente");
             }
         }
 
@@ -157,8 +157,8 @@ public class Ler {
                 } while (a < 0 | a > 3);
                 return a;
             } catch (Exception e) {
-                System.out.println("Não é um inteiro válido!!!\n");
-                System.out.println("Tente novamente\n");
+                System.out.println("Não é um inteiro válido!!!");
+                System.out.println("Tente novamente");
             }
         }
 
@@ -176,8 +176,8 @@ public class Ler {
                 } while (a < 0 | a > 4);
                 return a;
             } catch (Exception e) {
-                System.out.println("Não é um inteiro válido!!!\n");
-                System.out.println("Tente novamente\n");
+                System.out.println("Não é um inteiro válido!!!");
+                System.out.println("Tente novamente");
             }
         }
 
@@ -195,8 +195,8 @@ public class Ler {
                 } while (a < 0 | a > 5);
                 return a;
             } catch (Exception e) {
-                System.out.println("Não é um inteiro válido!!!\n");
-                System.out.println("Tente novamente\n");
+                System.out.println("Não é um inteiro válido!!!");
+                System.out.println("Tente novamente");
             }
         }
     }
@@ -213,8 +213,8 @@ public class Ler {
                 } while (a < 0 | a > 6);
                 return a;
             } catch (Exception e) {
-                System.out.println("Não é um inteiro válido!!!\n");
-                System.out.println("Tente novamente\n");
+                System.out.println("Não é um inteiro válido!!!");
+                System.out.println("Tente novamente");
             }
         }
     }
@@ -225,17 +225,17 @@ public class Ler {
             try {
                 do {
                     a = Integer.valueOf(umaString().trim()).intValue();
-                    if (a >= 2001) {
-                        System.out.println("Não é posivel registar esse atleta, so Atletas entre o ano 1950 e o ano 2000 introduza o ano novamente\n!");
+                    if (a >= 2018) {
+                        System.out.println("Não é posivel consultar datas a cima do ano 2018\n!");
                     }
-                    if (a < 1954) {
-                        System.out.println("Não é posivel registar esse atleta, so Atletas entre o ano 1950 e o ano 1999 introduza o ano novamente\n!");
+                    if (a < 2016) {
+                        System.out.println("Não é possivel consultar datas a baixo do ano de 2016\n!");
                     }
-                } while (a > 2000 | a < 1954);
+                } while (a > 2019 | a < 216);
                 return a;
             } catch (Exception e) {
-                System.out.println("Não é um inteiro válido!!!\n");
-                System.out.println("Tente novamente\n");
+                System.out.println("Não é um inteiro válido!!!");
+                System.out.println("Tente novamente");
             }
         }
     }
@@ -252,8 +252,8 @@ public class Ler {
                 } while (a < 1 | a > 31);
                 return a;
             } catch (Exception e) {
-                System.out.println("Não é um inteiro válido!!!\n");
-                System.out.println("Tente novamente\n");
+                System.out.println("Não é um inteiro válido!!!");
+                System.out.println("Tente novamente");
             }
         }
     }
@@ -270,8 +270,8 @@ public class Ler {
                 } while (a < 0 | a > 12);
                 return a;
             } catch (Exception e) {
-                System.out.println("Não é um inteiro válido!!!\n");
-                System.out.println("Tente novamente\n");
+                System.out.println("Não é um inteiro válido!!!");
+                System.out.println("Tente novamente");
             }
         }
 
