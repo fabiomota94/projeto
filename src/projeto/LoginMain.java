@@ -11,6 +11,7 @@ import Publisher.Publisher;
 import Subs.Subscriber;
 import java.io.IOException;
 import java.io.Serializable;
+import static java.lang.System.exit;
 import java.util.ArrayList;
 
 /**
@@ -76,6 +77,7 @@ public class LoginMain implements Serializable {
         ArrayList<LoginMain> pub = new ArrayList(); //array de Publishers
         ArrayList<LoginMain> subs = new ArrayList(); //array de subscribers
         int idi = 0;
+        int flag3=0;
         LerFicheiro LF = new LerFicheiro();
         pub = LF.LerFilePublishers();
         subs = LF.LerFileSubscribers();
@@ -202,12 +204,18 @@ public class LoginMain implements Serializable {
           }
             else if (a == 0)
             {
+                
                     System.out.println("A = 0 ");
+                    flag3++;
                      break;
                     
             }  
     }
-        System.out.println("SAIU DO WHILE E FICOU AQUI ");
+        if(flag3>0){
+            System.out.println("Volte Sempre!");
+            //exit(0);
+        }
+        
         
     }
 }
