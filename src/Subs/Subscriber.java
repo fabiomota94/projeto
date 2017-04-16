@@ -50,11 +50,22 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
            {
            int opcao =0;
            Noticias noticia;
-           System.out.println("1 - Constular Noticia de um topico");
+           System.out.println("1 - Consultar Noticia de um topico");
            System.out.println("2 - Consultar a Ultima noticia do Topico");
            System.out.println("0 - Sair");
            opcao = Ler.umInt();
-           if(opcao == 2)
+           if(opcao == 1)
+           {
+               System.out.println("Indique o ano ?");
+               int ano = Ler.ano();
+               System.out.println("Indique o mes ?");
+               int mes = Ler.Mes();
+               System.out.println("Indique o dia ?");
+               int dia = Ler.dia();
+               
+               
+           }
+           else if(opcao == 2)
            {
                System.out.println("Indique o topico");
                String nometopico = Ler.umaString();
