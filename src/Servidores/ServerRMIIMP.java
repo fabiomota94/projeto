@@ -28,6 +28,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
     public static ArrayList<Topico> d = new ArrayList();
      LerFicheiro lf = new LerFicheiro();
      GuardarDados gd = new GuardarDados();
+     int max = 
        
     public ServerRMIIMP() throws RemoteException, IOException, ClassNotFoundException{
         

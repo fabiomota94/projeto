@@ -6,7 +6,10 @@
 package Ficheiros;
 
 import Classes.Topico;
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -87,6 +90,17 @@ public class LerFicheiro {
             return tops;
       
         }
+         
+public int LerLimite (ArrayList<Topico> topicos) throws IOException,ClassNotFoundException{
+            
+        File ficheiro1 = new File("limite.txt");
+        int max;
+            try (FileReader arq = new FileReader(ficheiro1)) {
+                BufferedReader linha = new BufferedReader(arq);
+                max = (int)linha.read();
+            }
+        return max;
+          }
         
       
            
