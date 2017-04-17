@@ -103,8 +103,12 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     dataMaisVelha = new Date(ano2, mes2, dia2, hrs2, min2);
                     
                     noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);                  
+                    if(noticiasResultado == null){
+                        System.out.println("Sem noticias para serem mostradas entre essas datas.");
+                    }
+                    else{
                     System.out.println(noticiasResultado.toString());
-                    
+                    }
                     
                 } else if (opcao == 2) {
                     System.out.println("Indique o topico");

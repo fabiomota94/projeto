@@ -303,22 +303,26 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             }
             
         }
-         // depois de ter as noticias todas daquele topico no ArrayList noticias, vamos filtrar pela DATA
-         //a ultima é a mais velha
-         //primeira é a mais recente
+        
          
-         System.out.println("DATA MAIS RECENTE " + dataMaisRecente.toString());
-         
-         System.out.println("DATA MAIS ANTIGAA " + dataMaisAntiga.toString());
+        // System.out.println("DATA MAIS RECENTE " + dataMaisRecente.toString());         
+        // System.out.println("DATA MAIS ANTIGAA " + dataMaisAntiga.toString());
+        
+        
          
          for (int i = 0; i < noticias.size(); i++) {
              
                 if(dataMaisRecente.before(noticias.get(i).getData()) && dataMaisAntiga.after(noticias.get(i).getData())){
-                    System.out.println("\npassou aqui alguma ves?\n");
+                  //  System.out.println("\npassou aqui alguma ves?\n");
                     noticiasResult.add(noticias.get(i));
                     
                 }
-        
+        /**
+         *  FAZER EXATAMENTE O MESMO PARA O SERVIDOR DE BACKUP AGORA
+         * 
+         *  - Passar todas as noticias dentro de uma determinada data para dentro do array noticiasResult
+         * 
+         **/
          
          
      }
