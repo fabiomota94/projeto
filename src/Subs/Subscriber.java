@@ -54,13 +54,22 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
             while (true) {
                 int opcao = 0;
                 Noticias noticia;
-                System.out.println("1 - Consultar Noticia de um topico");
+                System.out.println("1 - Consultar Noticia de um topico(entre datas)");
                 System.out.println("2 - Consultar a Ultima noticia do Topico");
                 System.out.println("0 - Sair");
                 opcao = Ler.umInt();
                 if (opcao == 1) {
                     System.out.println("Indique o Topico onde vai procurar as Noticias.");
                     String nomeTopico1 = Ler.umaString();
+                    boolean verificador;
+                    
+                    verificador = si.checkTopic2(nomeTopico1);
+                    
+                    if(verificador==false){
+                        System.out.println("Topico nao existente!");
+                        continue;
+                    }
+                    
                     
                    Date dataMaisRecente = null; 
                    Date dataMaisVelha = null;
@@ -103,7 +112,7 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     dataMaisVelha = new Date(ano2, mes2, dia2, hrs2, min2);
                     
                     noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);                  
-                    if(noticiasResultado == null){
+                    if(noticiasResultado.isEmpty()){
                         System.out.println("Sem noticias para serem mostradas entre essas datas.");
                     }
                     else{
@@ -140,7 +149,7 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                 Noticias noticia;
 
                 System.out.println("1 - Subscrever um tópico");
-                System.out.println("2 - Constular Noticia de um topico");
+                System.out.println("2 - Constular Noticia de um topico (Entre datas)");
                 System.out.println("3 - Consultar a Ultima noticia do Topico");
                 System.out.println("0 - Sair");
                 int opcao = Ler.umInt();
@@ -152,7 +161,71 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     si.subscribe(nt, (SubscriberInterface) sub);
                     System.out.println("Topico Subscrito");
 
-                } else if (opcao == 3) {
+                }
+                else if(opcao == 2){//copy past testar
+                    
+                    System.out.println("Indique o Topico onde vai procurar as Noticias.");
+                    String nomeTopico1 = Ler.umaString();
+                    boolean verificador;
+                    
+                    verificador = si.checkTopic2(nomeTopico1);
+                    
+                    if(verificador==false){
+                        System.out.println("Topico nao existente!");
+                        continue;
+                    }
+                    
+                   Date dataMaisRecente = null; 
+                   Date dataMaisVelha = null;
+                   ArrayList<Noticias> noticiasResultado = new ArrayList();
+                   
+                    System.out.println("Indique o ano da data mais recente:");
+                    int ano = Ler.umInt()-1900;
+                    
+                    System.out.println("Indique o mes da data mais recente:");
+                    int mes = Ler.Mes()-1;
+                    
+                    System.out.println("Indique o dia da data mais recente:");
+                    int dia = Ler.dia();
+                    
+                    System.out.println("Indique a hora da data mais recente:");
+                    int hrs = Ler.umInt();
+                    
+                    
+                    System.out.println("Indique o minuto da data mais recente:");
+                    int min = Ler.umInt();
+                    
+                    dataMaisRecente = new Date(ano, mes, dia, hrs, min);
+                    
+                    System.out.println("Indique o ano da data mais antiga:");
+                    int ano2 = Ler.umInt()-1900;//rever
+                    
+                    System.out.println("Indique o mes da data mais antiga:");
+                    int mes2 = Ler.Mes()-1;
+                    
+                    System.out.println("Indique o dia da data mais antiga:");
+                    int dia2 = Ler.dia();
+                    
+                    System.out.println("Indique a hora da data mais antiga:");
+                    int hrs2 = Ler.umInt();
+                    
+                    
+                    System.out.println("Indique o minuto da data mais antiga:");
+                    int min2 = Ler.umInt();
+                    
+                    dataMaisVelha = new Date(ano2, mes2, dia2, hrs2, min2);
+                    
+                    noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);                  
+                    if(noticiasResultado.isEmpty()){
+                        System.out.println("Sem noticias para serem mostradas entre essas datas.");
+                    }
+                    else{
+                    System.out.println(noticiasResultado.toString());
+                    }
+                    
+                }
+                
+                else if (opcao == 3) {
                     System.out.println("Indique o topico");
                     String nometopico = Ler.umaString();
                     noticia = si.UltimaNoticia(nometopico);
