@@ -19,17 +19,20 @@ import projeto.Ler;
  */
 public class Publisher {
     private int id ;
-    public Publisher(int idi){
+    private ServerRMIInterface si;
+    
+    public Publisher(int idi, ServerRMIInterface si){
         
         id = idi;
+        this.si = si;
         ArrayList<Topico> consultar=null;
         
         
         
-        System.setSecurityManager(new SecurityManager());
+        //System.setSecurityManager(new SecurityManager());
         
         try {
-            ServerRMIInterface si = (ServerRMIInterface) Naming.lookup("rmi://127.0.0.1:1099/ServerRMI");
+          //  ServerRMIInterface si = (ServerRMIInterface) Naming.lookup("rmi://127.0.0.1:1099/ServerRMI");
             
 
             while (true) {

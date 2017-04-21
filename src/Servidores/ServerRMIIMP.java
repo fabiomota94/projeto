@@ -13,12 +13,14 @@ import Classes.Noticias;
 import Classes.Topico;
 import Ficheiros.GuardarDados;
 import Ficheiros.LerFicheiro;
-import Subs.Subscriber;
+import Publisher.Publisher;
 import Subs.SubscriberInterface;
 import java.io.IOException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import projeto.Ler;
+import projeto.LoginMain;
 
 /**
  *
@@ -28,8 +30,13 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
     
     public static ArrayList<Topico> d = new ArrayList();
     public static ArrayList<Topico> topbackup = new ArrayList();
-     LerFicheiro lf = new LerFicheiro();
-     GuardarDados gd = new GuardarDados();
+    public static ArrayList<LoginMain> pub = new ArrayList(); //array de Publishers
+    public static ArrayList<LoginMain> subs = new ArrayList(); //array de subscribers
+    
+    LerFicheiro lf = new LerFicheiro();
+    GuardarDados gd = new GuardarDados();
+       
+     
      public int max ;
        
     public ServerRMIIMP() throws RemoteException, IOException, ClassNotFoundException{
@@ -38,9 +45,91 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         super(); 
         d = lf.LerTopico();
         topbackup = lf.LerBackup();
+        pub = lf.LerFilePublishers();
+        subs = lf.LerFileSubscribers();
         System.out.println(d.toString());
-        }
-    public boolean addTopico(String s ) throws java.rmi.RemoteException 
+        System.out.println(pub.toString());
+        System.out.println(subs.toString());
+    }
+    
+    //Registar
+    
+    public boolean createUser(String nome, String pass, int tipo, int id, int op) throws java.rmi.RemoteException {
+        
+
+                if (op == 1) {
+                    LoginMain publishers = new LoginMain();
+                    publishers.setNome(nome);
+                    publishers.setPass(pass);
+                    publishers.setTipo(tipo);
+                    publishers.setId(id);
+                    pub.add(publishers);
+                    
+                    try {
+                        gd.SaveFilePublishers(pub);
+                    } catch (IOException ex) {
+                        Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    return true;
+                }
+                if (op == 2) {
+                    LoginMain subscribers = new LoginMain();
+                    subscribers.setNome(nome);
+                    subscribers.setPass(pass);
+                    subscribers.setTipo(tipo);
+                    subscribers.setId(id);
+                    subs.add(subscribers);
+                    try {
+                        gd.SaveFile_Consumers(subs);
+                    } catch (IOException ex) {
+                        Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                 return true;  
+                }
+        
+                return false;
+    }
+    
+    //LOGIN
+    
+    
+    public boolean LOGIN(String nome, String pass, int tipo, int id, int op, ServerRMIInterface si) throws java.rmi.RemoteException {
+        
+                
+                int flag = 0;
+                
+                for (int i = 0; i < pub.size(); i++) {
+
+                         if(pub.get(i).nome.equals(nome))//user encontrado
+                         {
+                             
+                             if(pub.get(i).pass.equals(pass))
+                             {
+                               id = pub.get(i).id;
+                               flag++;  
+                             }
+                             
+                         } 
+
+                    }
+
+                    if (flag > 0) {
+                        System.out.println("ID DO PUBLISHER  "+ id);
+                        Publisher p = new Publisher(id, (ServerRMIInterface) si);
+                    }
+                    
+                    return false;
+    }
+    
+    
+    
+    
+    public boolean addTopico(String s) throws java.rmi.RemoteException 
     {
        
         

@@ -8,10 +8,12 @@ package projeto;
 import Ficheiros.GuardarDados;
 import Ficheiros.LerFicheiro;
 import Publisher.Publisher;
+import Servidores.ServerRMIInterface;
 import Subs.Subscriber;
 import java.io.IOException;
 import java.io.Serializable;
 import static java.lang.System.exit;
+import java.rmi.Naming;
 import java.util.ArrayList;
 
 /**
@@ -20,10 +22,10 @@ import java.util.ArrayList;
  */
 public class LoginMain implements Serializable {
 
-    private int tipo;
-    private String nome;
-    private String pass;
-    private int id = 0;
+    public int tipo;
+    public String nome;
+    public String pass;
+    public int id = 0;
 
     public LoginMain() {
 
@@ -72,137 +74,95 @@ public class LoginMain implements Serializable {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        //Publisher p= new Publisher();
+        
 
-        ArrayList<LoginMain> pub = new ArrayList(); //array de Publishers
-        ArrayList<LoginMain> subs = new ArrayList(); //array de subscribers
+        
         int idi = 0;
         int flag3=0;
         LerFicheiro LF = new LerFicheiro();
-        pub = LF.LerFilePublishers();
-        subs = LF.LerFileSubscribers();
+        
         idi = LF.LerID();
+        
+        System.setSecurityManager(new SecurityManager());
 
-        System.out.println(pub.toString()); //verificação apagar depois....
-        System.out.println(subs.toString());
+        try {
+            ServerRMIInterface si = (ServerRMIInterface) Naming.lookup("rmi://127.0.0.1:1099/ServerRMI");
+        
+
+        
 
         while (true) {
+            
             System.out.println("1 - Registar \n2 - Login \n3 - Subscribers sem registo \n0 - Sair");
-            int a = Ler.umInt(); //Ler a opçao de cima
-            System.out.println("Opcao no login "+ a);
-            if (a == 1) {
+            int opcaologin = Ler.umInt(); //Ler a opçao de cima
+            
+            
+            System.out.println("Opcao no login "+ opcaologin);
+            
+            if (opcaologin == 1) {
+                
                 int op;
                 String user = "";
                 String pw = "";
+                
                 System.out.println("1 - Publisher \n2 - Subscribers");
+                
                 op = Ler.umInt();
                 System.out.println("Username:");
                 user = Ler.umaString();
                 System.out.println("Passowrd:");
                 pw = Ler.umaString();
-                GuardarDados gd = new GuardarDados();
+                
 
                 if (op == 1) {
-                    LoginMain publishers = new LoginMain();
-                    publishers.setNome(user);
-                    publishers.setPass(pw);
-                    publishers.setTipo(1);
-                    publishers.setId(idi);
-                    pub.add(publishers);
-                    System.out.println("Registado como Publisher");
-                    gd.SaveFilePublishers(pub);
-                    idi++;
-                    gd.SaveFile_id(idi);
-
+                    
+                    //registar publisher do lado do servidor;
+                    if (si.createUser(user, pw, op, idi, op))
+                        System.out.println("Registado como publisher!");
+                    else
+                        System.out.println("User não registado!");
+                    
                 }
                 if (op == 2) {
-                    LoginMain subscribers = new LoginMain();
-                    subscribers.setNome(user);
-                    subscribers.setPass(pw);
-                    subscribers.setTipo(2);
-                    subscribers.setId(idi);
-                    subs.add(subscribers);
-                    System.out.println("Registado como consumidor");
-                    gd.SaveFile_Consumers(subs);
-
-                    idi++;
-                    System.out.println("OK");
-                    gd.SaveFile_id(idi);
+                    
+                    //registar subscribers do lado do servidor;
+                    if (si.createUser(user, pw, op, idi, op))
+                        System.out.println("Registado com subscriber!");
+                    else
+                        System.out.println("User não registado!");
+                    
                 }
 
             }
-            if (a == 2) {
+        
+            
+            if (opcaologin == 2) {
+                
                 int op;
                 String user = "";
                 String password = "";
                 int flag = 0;
                 int id = 0;
+                
                 System.out.println("1 - Publisher \n2 - Subscriber");
                 op = Ler.umInt();
+                
                 if (op == 1) {
-                   flag=0;
-                    System.out.println("Username?");
-                    user = Ler.umaString();
-
-                    for (int i = 0; i < pub.size(); i++) {
-
-                         if(pub.get(i).nome.equals(user))//user encontrado
-                         {
-                             System.out.println("Password?");
-                             password = Ler.umaString();
-                             if(pub.get(i).pass.equals(password))
-                             {
-                               id = pub.get(i).id;
-                               flag++;  
-                             }
-                             else
-                             {
-                                 System.out.println("Password errada");
-                             }
-                         } 
-
-                    }
-
-                    if (flag > 0) {
-                        System.out.println("ID DO PUBLISHER  "+ id);
-                        Publisher p = new Publisher(id);
-                    }
-
-                }
-                else if (op == 2) {
-                    //LOGIN
                     flag=0;
                     System.out.println("Username?");
                     user = Ler.umaString();
+                    System.out.println("Password?");
+                    password = Ler.umaString();
 
-                    for (int i = 0; i < subs.size(); i++) {
-                        
-                        if(subs.get(i).nome.equals(user))//user encontrado
-                         {
-                             System.out.println("Password?");
-                             password = Ler.umaString();
-                             if(subs.get(i).pass.equals(password))
-                             {
-                                 
-                               id = subs.get(id).getId();
-                               flag++;  
-                             }
-                             else
-                             {
-                                 System.out.println("Password errada");
-                             }
-                         } 
+                    si.LOGIN(user, password, id, id, op,si);
 
-                    }
-                    if (flag > 0) {
-                        Subscriber sub = new Subscriber(2,id);
-                    }
                 }
+                
             } 
-            else if (a == 3) {
+            else if (opcaologin == 3) {
                     Subscriber sub = new Subscriber(3);
           }
-            else if (a == 0)
+            else if (opcaologin == 0)
             {
                 
                     //System.out.println("A = 0 ");
@@ -211,11 +171,11 @@ public class LoginMain implements Serializable {
                     
             }  
     }
-        if(flag3>0){
-            System.out.println("Volte Sempre!");
-            exit(0);
+            
+
+    
+     } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        
-        
-    }
+}
 }
