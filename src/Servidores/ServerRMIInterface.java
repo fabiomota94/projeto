@@ -19,8 +19,8 @@ import java.util.Date;
  */
 public interface ServerRMIInterface extends java.rmi.Remote{
     
-   public boolean createUser(String nome, String pass, int tipo, int id, int op) throws java.rmi.RemoteException;
-   public boolean LOGIN(String nome, String pass, int tipo, int id, int op, ServerRMIInterface si) throws java.rmi.RemoteException;
+   public boolean createUser(String nome, String pass, int tipo) throws java.rmi.RemoteException;
+   public boolean LOGIN(String nome, String pass, int tipo) throws java.rmi.RemoteException;
    public boolean addTopico(String s ) throws java.rmi.RemoteException;
    public boolean checkTopic(String s ,ArrayList<Topico> d)throws java.rmi.RemoteException;
    public ArrayList <Topico> ConsultarTopicos() throws java.rmi.RemoteException;

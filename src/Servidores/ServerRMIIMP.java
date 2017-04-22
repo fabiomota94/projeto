@@ -33,11 +33,13 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
     public static ArrayList<LoginMain> pub = new ArrayList(); //array de Publishers
     public static ArrayList<LoginMain> subs = new ArrayList(); //array de subscribers
     
+    public static int id_user=0;
+    
     LerFicheiro lf = new LerFicheiro();
     GuardarDados gd = new GuardarDados();
        
      
-     public int max ;
+    public int max ;
        
     public ServerRMIIMP() throws RemoteException, IOException, ClassNotFoundException{
         
@@ -47,26 +49,31 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         topbackup = lf.LerBackup();
         pub = lf.LerFilePublishers();
         subs = lf.LerFileSubscribers();
+        id_user = lf.LerID();
+        
         System.out.println(d.toString());
         System.out.println(pub.toString());
         System.out.println(subs.toString());
+        System.out.println("ID: " + id_user);
     }
     
     //Registar
     
-    public boolean createUser(String nome, String pass, int tipo, int id, int op) throws java.rmi.RemoteException {
+    public boolean createUser(String nome, String pass, int tipo) throws java.rmi.RemoteException {
         
 
-                if (op == 1) {
+                if (tipo == 1) { //Publisher
                     LoginMain publishers = new LoginMain();
+                    id_user++;
                     publishers.setNome(nome);
                     publishers.setPass(pass);
                     publishers.setTipo(tipo);
-                    publishers.setId(id);
+                    publishers.setId(id_user);
                     pub.add(publishers);
                     
                     try {
                         gd.SaveFilePublishers(pub);
+                        gd.SaveFile_id(id_user);
                     } catch (IOException ex) {
                         Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ClassNotFoundException ex) {
@@ -74,15 +81,17 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
                     }
                     return true;
                 }
-                if (op == 2) {
+                if (tipo == 2) { //Subscriber
                     LoginMain subscribers = new LoginMain();
+                    id_user++;
                     subscribers.setNome(nome);
                     subscribers.setPass(pass);
                     subscribers.setTipo(tipo);
-                    subscribers.setId(id);
+                    subscribers.setId(id_user);
                     subs.add(subscribers);
                     try {
                         gd.SaveFile_Consumers(subs);
+                        gd.SaveFile_id(id_user);
                     } catch (IOException ex) {
                         Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ClassNotFoundException ex) {
@@ -98,31 +107,41 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
     //LOGIN
     
     
-    public boolean LOGIN(String nome, String pass, int tipo, int id, int op, ServerRMIInterface si) throws java.rmi.RemoteException {
+    public boolean LOGIN(String nome, String pass, int tipo) throws java.rmi.RemoteException {
         
-                
-                int flag = 0;
-                
-                for (int i = 0; i < pub.size(); i++) {
+                if (tipo==1){ //Publisher
+                    for (int i = 0; i < pub.size(); i++) {
 
                          if(pub.get(i).nome.equals(nome))//user encontrado
                          {
                              
-                             if(pub.get(i).pass.equals(pass))
+                             if(pub.get(i).pass.equals(pass)) //pass correcta
                              {
-                               id = pub.get(i).id;
-                               flag++;  
+                               return true; 
                              }
                              
                          } 
 
                     }
+                }
+                
+                if (tipo==2){ //Subscribers
+                    for (int i = 0; i < subs.size(); i++) {
 
-                    if (flag > 0) {
-                        System.out.println("ID DO PUBLISHER  "+ id);
-                        Publisher p = new Publisher(id, (ServerRMIInterface) si);
+                         if(subs.get(i).nome.equals(nome))//user encontrado
+                         {
+                             
+                             if(subs.get(i).pass.equals(pass)) //pass correcta
+                             {
+                               return true; 
+                             }
+                             
+                         } 
+
                     }
-                    
+                }
+
+                        
                     return false;
     }
     

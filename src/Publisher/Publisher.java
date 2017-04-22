@@ -18,25 +18,28 @@ import projeto.Ler;
  * @author Fábio
  */
 public class Publisher {
+    
     private int id ;
+    private String nome;
     private ServerRMIInterface si;
     
-    public Publisher(int idi, ServerRMIInterface si){
+    public Publisher(int idi, String nome, ServerRMIInterface si){
         
         id = idi;
         this.si = si;
+        this.nome = nome;
         ArrayList<Topico> consultar=null;
         
         
         
-        //System.setSecurityManager(new SecurityManager());
+        System.out.println("Publisher: " + nome);
         
         try {
-          //  ServerRMIInterface si = (ServerRMIInterface) Naming.lookup("rmi://127.0.0.1:1099/ServerRMI");
+          
             
 
             while (true) {
-                System.out.println("Publisher\n1 - Add topico \n2 - Consultar Tópicos Existentes \n3 - Inserir Noticia em Topico \n4 - Consultar  Todas as noticias Publicadas");
+                System.out.println("1 - Add topico \n2 - Consultar Tópicos Existentes \n3 - Inserir Noticia em Topico \n4 - Consultar  Todas as noticias Publicadas");
                 System.out.println("0 - Sair");
                 int op = Ler.umInt();
                 if (op == 1) {

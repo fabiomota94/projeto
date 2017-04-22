@@ -8,10 +8,7 @@ package Subs;
 import Classes.Noticias;
 import Servidores.ServerRMIInterface;
 import java.io.Serializable;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
-
-import java.rmi.registry.*;
 import java.util.ArrayList;
 import java.util.Date;
 import projeto.Ler;
@@ -24,12 +21,17 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
 
     private int id;
     private int tipo;
-    public Registry registry;
+    private String nome;
     public String serverName;
+    private ServerRMIInterface si;
 
     public Subscriber() throws RemoteException {
 
         super();
+        this.si=si;
+        this.tipo = tipo;
+        this.id = id;
+        this.nome = nome;
 
     }
 
@@ -39,17 +41,12 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
 
     }
     
-    
-   
-    
-    
 
-    public Subscriber(int idi) throws RemoteException {
-        System.setSecurityManager(new SecurityManager());
+    public Subscriber(int tipo, ServerRMIInterface si) throws RemoteException { //SEM REGISTO
         
-        try {
-            ServerRMIInterface si = (ServerRMIInterface) Naming.lookup("rmi://127.0.0.1:1099/ServerRMI");
-            
+        this.si=si;
+        
+        try {           
 
             while (true) {
                 int opcao = 0;
@@ -131,18 +128,15 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
+    } //SEM REGISTO ACABA AQUI!!
 
-    public Subscriber(int tip, int idi) throws RemoteException {
-        this.tipo = tip;
-        this.id = idi;
-        System.setSecurityManager(new SecurityManager());
+    public Subscriber(String nome, int idi, ServerRMIInterface si) throws RemoteException { //COM REGISTO
+        
 
         try {
-            ServerRMIInterface si = (ServerRMIInterface) Naming.lookup("rmi://127.0.0.1:1099/ServerRMI");
-
-            System.out.println("Subscriber:");
-            //SUBS COM REGISGO
+            
+            System.out.println("Subscriber: " + nome);
+           
 
             while (true) {
 

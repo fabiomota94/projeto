@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import static java.lang.System.exit;
 import java.rmi.Naming;
-import java.util.ArrayList;
 
 /**
  *
@@ -32,7 +31,7 @@ public class LoginMain implements Serializable {
         tipo = 0;
         nome = "";
         pass = "";
-        id++; // acho que temos de mandar o nome tambem
+        id=id; 
 
     }
 
@@ -64,8 +63,8 @@ public class LoginMain implements Serializable {
         return id;
     }
 
-    public void setId(int idi) {
-        this.id = idi;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
@@ -75,13 +74,13 @@ public class LoginMain implements Serializable {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         
-
-        
-        int idi = 0;
+ 
         int flag3=0;
-        LerFicheiro LF = new LerFicheiro();
         
-        idi = LF.LerID();
+        LerFicheiro LF = new LerFicheiro();
+        GuardarDados GD = new GuardarDados();
+        
+        
         
         System.setSecurityManager(new SecurityManager());
 
@@ -99,35 +98,39 @@ public class LoginMain implements Serializable {
             
             System.out.println("Opcao no login "+ opcaologin);
             
-            if (opcaologin == 1) {
+            if (opcaologin == 1) { //Registar
                 
-                int op;
+                int tipo;
                 String user = "";
                 String pw = "";
                 
                 System.out.println("1 - Publisher \n2 - Subscribers");
                 
-                op = Ler.umInt();
+                tipo = Ler.umInt();
                 System.out.println("Username:");
                 user = Ler.umaString();
                 System.out.println("Passowrd:");
                 pw = Ler.umaString();
                 
 
-                if (op == 1) {
+                if (tipo == 1) {
                     
                     //registar publisher do lado do servidor;
-                    if (si.createUser(user, pw, op, idi, op))
+                    if (si.createUser(user, pw, tipo)){
+                        
                         System.out.println("Registado como publisher!");
+                    }
                     else
                         System.out.println("User não registado!");
                     
                 }
-                if (op == 2) {
+                if (tipo == 2) {
                     
                     //registar subscribers do lado do servidor;
-                    if (si.createUser(user, pw, op, idi, op))
+                    if (si.createUser(user, pw, tipo)){
+                        
                         System.out.println("Registado com subscriber!");
+                    }
                     else
                         System.out.println("User não registado!");
                     
@@ -136,38 +139,60 @@ public class LoginMain implements Serializable {
             }
         
             
-            if (opcaologin == 2) {
+            if (opcaologin == 2) {//Login
                 
-                int op;
+                int tipouser;
                 String user = "";
                 String password = "";
-                int flag = 0;
+                
                 int id = 0;
+                Publisher p;
+                Subscriber s;
+                
                 
                 System.out.println("1 - Publisher \n2 - Subscriber");
-                op = Ler.umInt();
+                tipouser = Ler.umInt(); //tipo de utilizador
                 
-                if (op == 1) {
-                    flag=0;
+                if (tipouser == 1) {
                     System.out.println("Username?");
                     user = Ler.umaString();
                     System.out.println("Password?");
                     password = Ler.umaString();
 
-                    si.LOGIN(user, password, id, id, op,si);
+                    if(si.LOGIN(user, password, tipouser)) //se for true
+                        
+                        p = new Publisher(id, user, (ServerRMIInterface) si);
+                    else
+                        System.out.println("Dados Errados de Login");
+                        
+
+                }
+                
+                if (tipouser == 2) {
+                    System.out.println("Username?");
+                    user = Ler.umaString();
+                    System.out.println("Password?");
+                    password = Ler.umaString();
+
+                    if(si.LOGIN(user, password, tipouser)) //se for true
+                    
+                        s = new Subscriber (user, id, (ServerRMIInterface) si);
+                    else
+                        System.out.println("Dados Errados de Login");
+                        
 
                 }
                 
             } 
+            
             else if (opcaologin == 3) {
-                    Subscriber sub = new Subscriber(3);
-          }
+                    Subscriber sub = new Subscriber(3, si);
+            }
+            
             else if (opcaologin == 0)
             {
                 
-                    //System.out.println("A = 0 ");
-                    flag3++;
-                     break;
+                    exit(0);
                     
             }  
     }
