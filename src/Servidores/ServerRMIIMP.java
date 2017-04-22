@@ -10,16 +10,15 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import Classes.Noticias;
+import Classes.Subscritores;
 import Classes.Topico;
 import Ficheiros.GuardarDados;
 import Ficheiros.LerFicheiro;
-import Publisher.Publisher;
 import Subs.SubscriberInterface;
 import java.io.IOException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import projeto.Ler;
 import projeto.LoginMain;
 
 /**
@@ -54,6 +53,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         System.out.println(d.toString());
         System.out.println(pub.toString());
         System.out.println(subs.toString());
+        System.out.println(topbackup.toString());
         System.out.println("ID: " + id_user);
     }
     
@@ -104,10 +104,35 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
                 return false;
     }
     
+    public boolean checkuser(String nome, int tipo) throws java.rmi.RemoteException {
+        
+        if(tipo==1){
+            for (int i = 0; i <pub.size(); i++) {
+            
+                if(pub.get(i).getNome().equals(nome))
+                    return true;
+            
+            }
+        }
+        if(tipo==2){
+            for (int i = 0; i <subs.size(); i++) {
+            
+                if(subs.get(i).getNome().equals(nome))
+                    return true;
+            
+            }
+        }
+        
+        return false;
+        
+    }
+    
+    
+    
     //LOGIN
     
     
-    public boolean LOGIN(String nome, String pass, int tipo) throws java.rmi.RemoteException {
+    public int LOGIN(String nome, String pass, int tipo) throws java.rmi.RemoteException {
         
                 if (tipo==1){ //Publisher
                     for (int i = 0; i < pub.size(); i++) {
@@ -117,7 +142,8 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
                              
                              if(pub.get(i).pass.equals(pass)) //pass correcta
                              {
-                               return true; 
+                               
+                               return pub.get(i).getId(); 
                              }
                              
                          } 
@@ -133,7 +159,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
                              
                              if(subs.get(i).pass.equals(pass)) //pass correcta
                              {
-                               return true; 
+                               return subs.get(i).getId(); 
                              }
                              
                          } 
@@ -142,7 +168,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
                 }
 
                         
-                    return false;
+                    return -1;
     }
     
     
@@ -222,7 +248,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
     }
      public boolean addNoticia(Noticias noticia ,String ntopico) throws java.rmi.RemoteException{
         
-         ArrayList<SubscriberInterface> subscribersn = null;
+         ArrayList<Subscritores> subscribersn = null;
     
          
        
@@ -249,13 +275,14 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
            
         
         //Verificação de subscribers
-         //subscribersn = d.get(posicao).getSUBS();
+         
+            subscribersn = d.get(posicao).getSubscribers();
          
          for (int i = 0; i < subscribersn.size(); i++) {
              
             try{
                 System.out.println("A enviar para o subs "+ subscribersn.get(i).toString());
-                subscribersn.get(i).EscreverNoticia(noticia);
+                subscribersn.get(i).getSubscribers().EscreverNoticia(noticia);
             }
              catch(Exception e)
              {
@@ -381,21 +408,51 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
     }
     
     
-    public void subscribe (String tp, SubscriberInterface subs) throws java.rmi.RemoteException
+    public void subscribe (String tp,int id, SubscriberInterface subs) throws java.rmi.RemoteException
     {
+        Subscritores objeto = new Subscritores();
+        ArrayList<Subscritores> array= null;
         
         for (int i = 0; i < d.size(); i++) {
             
             if (d.get(i).getNometopico().equals(tp)){
                 
-                //d.get(i).addSub(subs);
+                array = d.get(i).getSubscribers();
+                
+                for(int j = 0 ;j<array.size();j++){
+                    if(array.get(j).getIds()==id)
+                    {
+                      return;
+                    }
+                    }
+                } 
+                
+            objeto.setIds(id);
+            objeto.setSubscribers(subs);
+            d.get(i).addSubcritores(objeto);
             }
 
-        } 
+    } 
    
-    }
     
-     
+    
+     public void updatesubs (int id, SubscriberInterface subs)
+     {
+         ArrayList<Subscritores> array= null;
+         
+         for(int i = 0 ;i<d.size();i++)
+          {
+              array = d.get(i).getSubscribers();
+              for(int j = 0 ;j<array.size();j++)
+              {
+                  if(array.get(j).getIds()==id)
+                  {
+                      array.get(j).setSubscribers(subs);
+                  }
+              }
+          }
+         
+     }
      public ArrayList<Noticias> MostarNoticiasEntreDatas (String nomeTopico, Date dataMaisRecente, Date dataMaisAntiga)throws java.rmi.RemoteException{
          
          ArrayList<Noticias> noticiasResult = new ArrayList<Noticias>();

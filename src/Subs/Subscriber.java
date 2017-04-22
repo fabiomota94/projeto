@@ -135,9 +135,11 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
 
         try {
             
-            System.out.println("Subscriber: " + nome);
-           
-
+            System.out.println("Subscriber id: " + idi + "," + nome);
+            
+            Subscriber subupdate = new Subscriber();
+            si.updatesubs(idi,subupdate);
+               
             while (true) {
 
                 Noticias noticia;
@@ -152,7 +154,8 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     System.out.println("1 - Subscrever um tópico");
                     String nt = Ler.umaString();
                     Subscriber sub = new Subscriber();
-                    si.subscribe(nt, (SubscriberInterface) sub);
+                    
+                    si.subscribe(nt,idi, (SubscriberInterface) sub);
                     System.out.println("Topico Subscrito");
 
                 }

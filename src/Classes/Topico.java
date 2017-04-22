@@ -46,8 +46,15 @@ public class Topico implements Serializable{
     public ArrayList<Noticias> getNoticias() {
         return Noticias;
     }
+    public void addSubcritores(Subscritores novosub) {
+        
+       this.subscribers.add(novosub);
+    }
 
-    
+    public ArrayList<Subscritores> getSubscribers()
+    {
+        return this.subscribers;
+    }
 
     public void setNoticias(ArrayList<Noticias> Noticias) {
         this.Noticias = Noticias;

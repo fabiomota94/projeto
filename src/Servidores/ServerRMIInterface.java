@@ -20,7 +20,8 @@ import java.util.Date;
 public interface ServerRMIInterface extends java.rmi.Remote{
     
    public boolean createUser(String nome, String pass, int tipo) throws java.rmi.RemoteException;
-   public boolean LOGIN(String nome, String pass, int tipo) throws java.rmi.RemoteException;
+   public int LOGIN(String nome, String pass, int tipo) throws java.rmi.RemoteException;
+   public boolean checkuser(String nome, int tipo) throws java.rmi.RemoteException;
    public boolean addTopico(String s ) throws java.rmi.RemoteException;
    public boolean checkTopic(String s ,ArrayList<Topico> d)throws java.rmi.RemoteException;
    public ArrayList <Topico> ConsultarTopicos() throws java.rmi.RemoteException;
@@ -28,7 +29,7 @@ public interface ServerRMIInterface extends java.rmi.Remote{
    public boolean checkTopic2(String s ) throws java.rmi.RemoteException;    
    public boolean addNoticia(Noticias noticia ,String ntopico) throws java.rmi.RemoteException;
    public Noticias UltimaNoticia(String nometopico) throws java.rmi.RemoteException;
-   public void subscribe (String tp, SubscriberInterface subs) throws java.rmi.RemoteException;
+   public void subscribe (String tp,int id, SubscriberInterface subs) throws java.rmi.RemoteException;
    public ArrayList<Noticias> MostarNoticiasEntreDatas (String nomeTopico, Date dataMaisRecente, Date dataMaisVelha)throws java.rmi.RemoteException;
-    
+   public void updatesubs (int id, SubscriberInterface subs)throws java.rmi.RemoteException;
 }

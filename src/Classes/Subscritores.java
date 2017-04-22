@@ -6,12 +6,13 @@
 package Classes;
 
 import Subs.SubscriberInterface;
+import java.io.Serializable;
 
 /**
  *
  * @author TiagoMartins
  */
-public class Subscritores {
+public class Subscritores implements Serializable {
     
     private int ids;
     private SubscriberInterface subscribers;
