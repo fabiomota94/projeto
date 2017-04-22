@@ -23,6 +23,11 @@ public class Subscritores {
        
        
     }
+    
+    public Subscritores(int ids, SubscriberInterface subscribers) {
+        this.ids = ids;
+        this.subscribers = subscribers;
+    }
 
     public int getIds() {
         return ids;
@@ -32,10 +37,6 @@ public class Subscritores {
         return subscribers;
     }
   
-    public Subscritores(int ids, SubscriberInterface subscribers) {
-        this.ids = ids;
-        this.subscribers = subscribers;
-    }
 
     public void setIds(int ids) {
         this.ids = ids;
