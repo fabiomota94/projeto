@@ -249,7 +249,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
            
         
         //Verificação de subscribers
-         subscribersn = d.get(posicao).getSUBS();
+         //subscribersn = d.get(posicao).getSUBS();
          
          for (int i = 0; i < subscribersn.size(); i++) {
              
@@ -388,7 +388,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             
             if (d.get(i).getNometopico().equals(tp)){
                 
-                d.get(i).addSub(subs);
+                //d.get(i).addSub(subs);
             }
 
         } 

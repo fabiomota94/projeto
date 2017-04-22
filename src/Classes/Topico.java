@@ -14,7 +14,7 @@ public class Topico implements Serializable{
     
     private String nometopico;
     private ArrayList<Noticias> Noticias;
-    private ArrayList<SubscriberInterface> subscribers;
+    private ArrayList<Subscritores> subscribers;
         
     public Topico (){
         
@@ -46,15 +46,18 @@ public class Topico implements Serializable{
     public ArrayList<Noticias> getNoticias() {
         return Noticias;
     }
+
     
-    public void addSub(SubscriberInterface Subs){
-        
-        this.subscribers.add(Subs);
+
+    public void setNoticias(ArrayList<Noticias> Noticias) {
+        this.Noticias = Noticias;
+    }
+
+    public void setSubscribers(ArrayList<Subscritores> subscribers) {
+        this.subscribers = subscribers;
     }
     
-    public ArrayList<SubscriberInterface> getSUBS() {
-        return subscribers;
-    }
+    
     
     
      public String getNometopico() {
