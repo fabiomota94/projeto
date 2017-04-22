@@ -10,7 +10,6 @@ import Ficheiros.LerFicheiro;
 import Publisher.Publisher;
 import Servidores.ServerRMIInterface;
 import Subs.Subscriber;
-import Subs.SubscriberInterface;
 import java.io.IOException;
 import java.io.Serializable;
 import static java.lang.System.exit;
@@ -75,8 +74,6 @@ public class LoginMain implements Serializable {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         
- 
-        int flag3=0;
         
         LerFicheiro LF = new LerFicheiro();
         GuardarDados GD = new GuardarDados();
@@ -216,7 +213,6 @@ public class LoginMain implements Serializable {
             }  
     }
             
-
     
      } catch (Exception e) {
             System.out.println(e.getMessage());
