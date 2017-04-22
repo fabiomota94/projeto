@@ -7,7 +7,9 @@ package Subs;
 
 import Classes.Noticias;
 import Servidores.ServerRMIInterface;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,6 +73,7 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                    Date dataMaisRecente = null; 
                    Date dataMaisVelha = null;
                    ArrayList<Noticias> noticiasResultado = new ArrayList();
+                   ArrayList<Noticias> noticiasResultado_backup = new ArrayList();
                    
                     System.out.println("Indique o ano da data mais recente:");
                     int ano = Ler.umInt()-1900;
@@ -108,12 +111,29 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     
                     dataMaisVelha = new Date(ano2, mes2, dia2, hrs2, min2);
                     
-                    noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);                  
+                    noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);
+                    
+                    Socket subsSocket = new Socket ("127.0.0.1", 2222);
+                    ObjectInputStream ois;                    
+                    ois = new ObjectInputStream(subsSocket.getInputStream());
+                    
+                    noticiasResultado_backup = (ArrayList<Noticias>) ois.readObject();
+                    ois.close();
+                    subsSocket.close();
+                    
                     if(noticiasResultado.isEmpty()){
                         System.out.println("Sem noticias para serem mostradas entre essas datas.");
                     }
                     else{
                     System.out.println(noticiasResultado.toString());
+                    }
+                    
+                    if(noticiasResultado_backup.isEmpty()){
+                        System.out.println("Sem noticias para semres mostradas entre essas datas.");                       
+                    }
+                    else{
+                        
+                        System.out.println(noticiasResultado_backup.toString());
                     }
                     
                 } else if (opcao == 2) {

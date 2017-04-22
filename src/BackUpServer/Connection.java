@@ -6,8 +6,14 @@
 package BackUpServer;
 
 import Classes.Topico;
+import Ficheiros.GuardarDados;
+import Ficheiros.LerFicheiro;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,14 +23,16 @@ public class Connection extends Thread {
     
     private Socket S = null;
     ArrayList <Topico> tpbackup = new ArrayList();
-        
-    public Connection (Socket s, ArrayList <Topico> topicosbackup) {
+    GuardarDados gd = new GuardarDados();
+    LerFicheiro lf = new LerFicheiro();
+    
+    public Connection (Socket s, ArrayList <Topico> topicosbackup) throws IOException, ClassNotFoundException {
         
         super();
-        
+               
+        tpbackup=lf.LerBackup();
         S = s;
-        tpbackup = topicosbackup;
-        
+        tpbackup = topicosbackup;        
         start();
     
     }
@@ -34,7 +42,16 @@ public class Connection extends Thread {
     
     
         System.out.println("Estou dentro da thread ehehehehe");
-    
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(S.getOutputStream());
+            oos.writeObject(tpbackup);
+            oos.flush();
+            oos.close();
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
+        }
     
     
     }
