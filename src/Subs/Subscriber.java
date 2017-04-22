@@ -8,6 +8,7 @@ package Subs;
 import Classes.Noticias;
 import Servidores.ServerRMIInterface;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.rmi.RemoteException;
@@ -17,7 +18,7 @@ import projeto.Ler;
 
 /**
  *
- * @author Fábio, Tiago,
+ * @author Fábio, Tiago, João
  */
 public class Subscriber extends java.rmi.server.UnicastRemoteObject implements SubscriberInterface, Serializable {
 
@@ -114,11 +115,17 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);
                     
                     Socket subsSocket = new Socket ("127.0.0.1", 2222);
+                    
+                    ObjectOutputStream oos = new ObjectOutputStream(subsSocket.getOutputStream());
+                    oos.writeObject(nomeTopico1);
+                    oos.flush();
+                    
                     ObjectInputStream ois;                    
                     ois = new ObjectInputStream(subsSocket.getInputStream());
                     
                     noticiasResultado_backup = (ArrayList<Noticias>) ois.readObject();
                     ois.close();
+                    oos.close();
                     subsSocket.close();
                     
                     if(noticiasResultado.isEmpty()){
