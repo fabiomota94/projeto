@@ -31,7 +31,7 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
     public Subscriber() throws RemoteException {
 
         super();
-        this.si=si;
+        this.si = si;
         this.tipo = tipo;
         this.id = id;
         this.nome = nome;
@@ -43,13 +43,12 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
         System.out.println(n.toString());
 
     }
-    
 
     public Subscriber(int tipo, ServerRMIInterface si) throws RemoteException { //SEM REGISTO
-        
-        this.si=si;
-        
-        try {           
+
+        this.si = si;
+
+        try {
 
             while (true) {
                 int opcao = 0;
@@ -62,87 +61,91 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     System.out.println("Indique o Topico onde vai procurar as Noticias.");
                     String nomeTopico1 = Ler.umaString();
                     boolean verificador;
-                    
+
                     verificador = si.checkTopic2(nomeTopico1);
-                    
-                    if(verificador==false){
+
+                    if (verificador == false) {
                         System.out.println("Topico nao existente!");
                         continue;
                     }
-                    
-                    
-                   Date dataMaisRecente = null; 
-                   Date dataMaisVelha = null;
-                   ArrayList<Noticias> noticiasResultado = new ArrayList();
-                   ArrayList<Noticias> noticiasResultado_backup = new ArrayList();
-                   
+
+                    Date dataMaisRecente = null;
+                    Date dataMaisVelha = null;
+                    ArrayList<Noticias> noticiasResultado = new ArrayList();
+                    ArrayList<Noticias> noticiasResultado_backup = new ArrayList();
+
                     System.out.println("Indique o ano da data mais recente:");
-                    int ano = Ler.umInt()-1900;
-                    
+                    int ano = Ler.umInt() - 1900;
+
                     System.out.println("Indique o mes da data mais recente:");
-                    int mes = Ler.Mes()-1;
-                    
+                    int mes = Ler.Mes() - 1;
+
                     System.out.println("Indique o dia da data mais recente:");
                     int dia = Ler.dia();
-                    
+
                     System.out.println("Indique a hora da data mais recente:");
                     int hrs = Ler.umInt();
-                    
-                    
+
                     System.out.println("Indique o minuto da data mais recente:");
                     int min = Ler.umInt();
-                    
+
                     dataMaisRecente = new Date(ano, mes, dia, hrs, min);
-                    
+
                     System.out.println("Indique o ano da data mais antiga:");
-                    int ano2 = Ler.umInt()-1900;//rever
-                    
+                    int ano2 = Ler.umInt() - 1900;//rever
+
                     System.out.println("Indique o mes da data mais antiga:");
-                    int mes2 = Ler.Mes()-1;
-                    
+                    int mes2 = Ler.Mes() - 1;
+
                     System.out.println("Indique o dia da data mais antiga:");
                     int dia2 = Ler.dia();
-                    
+
                     System.out.println("Indique a hora da data mais antiga:");
                     int hrs2 = Ler.umInt();
-                    
-                    
+
                     System.out.println("Indique o minuto da data mais antiga:");
                     int min2 = Ler.umInt();
-                    
+
                     dataMaisVelha = new Date(ano2, mes2, dia2, hrs2, min2);
-                    
+
                     noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);
-                    
-                    Socket subsSocket = new Socket ("127.0.0.1", 2222);
-                    
+
+                    Socket subsSocket = new Socket("127.0.0.1", 2222);
+
                     ObjectOutputStream oos = new ObjectOutputStream(subsSocket.getOutputStream());
                     oos.writeObject(nomeTopico1);
                     oos.flush();
-                    
-                    ObjectInputStream ois;                    
+
+                    ObjectOutputStream oos2 = new ObjectOutputStream(subsSocket.getOutputStream());
+                    oos2.writeObject(dataMaisRecente);
+                    oos2.flush();
+
+                    ObjectOutputStream oos3 = new ObjectOutputStream(subsSocket.getOutputStream());
+                    oos3.writeObject(dataMaisVelha);
+                    oos3.flush();
+
+                    ObjectInputStream ois;
                     ois = new ObjectInputStream(subsSocket.getInputStream());
-                    
+
                     noticiasResultado_backup = (ArrayList<Noticias>) ois.readObject();
+
                     ois.close();
                     oos.close();
+                    oos2.close();
+                    oos3.close();
                     subsSocket.close();
-                    
-                    if(noticiasResultado.isEmpty()){
+
+                    if (noticiasResultado.isEmpty() && noticiasResultado_backup.isEmpty()) {
                         System.out.println("Sem noticias para serem mostradas entre essas datas.");
+                        continue;
                     }
-                    else{
-                    System.out.println(noticiasResultado.toString());
+                    if (!noticiasResultado.isEmpty()) {
+                        System.out.println(noticiasResultado.toString());
                     }
-                    
-                    if(noticiasResultado_backup.isEmpty()){
-                        System.out.println("Sem noticias para semres mostradas entre essas datas.");                       
-                    }
-                    else{
-                        
+                    if (!noticiasResultado_backup.isEmpty()) {
                         System.out.println(noticiasResultado_backup.toString());
                     }
-                    
+
                 } else if (opcao == 2) {
                     System.out.println("Indique o topico");
                     String nometopico = Ler.umaString();
@@ -158,15 +161,14 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
     } //SEM REGISTO ACABA AQUI!!
 
     public Subscriber(String nome, int idi, ServerRMIInterface si) throws RemoteException { //COM REGISTO
-        
 
         try {
-            
+
             System.out.println("Subscriber id: " + idi + "," + nome);
-            
+
             Subscriber subupdate = new Subscriber();
-            si.updatesubs(idi,subupdate);
-               
+            si.updatesubs(idi, subupdate);
+
             while (true) {
 
                 Noticias noticia;
@@ -181,75 +183,101 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     System.out.println("1 - Subscrever um tópico");
                     String nt = Ler.umaString();
                     Subscriber sub = new Subscriber();
-                    
-                    si.subscribe(nt,idi, (SubscriberInterface) sub);
+
+                    si.subscribe(nt, idi, (SubscriberInterface) sub);
                     System.out.println("Topico Subscrito");
 
-                }
-                else if(opcao == 2){//copy past testar
-                    
+                } else if (opcao == 2) {
+
                     System.out.println("Indique o Topico onde vai procurar as Noticias.");
                     String nomeTopico1 = Ler.umaString();
                     boolean verificador;
-                    
+
                     verificador = si.checkTopic2(nomeTopico1);
-                    
-                    if(verificador==false){
+
+                    if (verificador == false) {
                         System.out.println("Topico nao existente!");
                         continue;
                     }
-                    
-                   Date dataMaisRecente = null; 
-                   Date dataMaisVelha = null;
-                   ArrayList<Noticias> noticiasResultado = new ArrayList();
-                   
+
+                    Date dataMaisRecente = null;
+                    Date dataMaisVelha = null;
+                    ArrayList<Noticias> noticiasResultado = new ArrayList();
+                    ArrayList<Noticias> noticiasResultado_backup = new ArrayList();
+
                     System.out.println("Indique o ano da data mais recente:");
-                    int ano = Ler.umInt()-1900;
-                    
+                    int ano = Ler.umInt() - 1900;
+
                     System.out.println("Indique o mes da data mais recente:");
-                    int mes = Ler.Mes()-1;
-                    
+                    int mes = Ler.Mes() - 1;
+
                     System.out.println("Indique o dia da data mais recente:");
                     int dia = Ler.dia();
-                    
+
                     System.out.println("Indique a hora da data mais recente:");
                     int hrs = Ler.umInt();
-                    
-                    
+
                     System.out.println("Indique o minuto da data mais recente:");
                     int min = Ler.umInt();
-                    
+
                     dataMaisRecente = new Date(ano, mes, dia, hrs, min);
-                    
+
                     System.out.println("Indique o ano da data mais antiga:");
-                    int ano2 = Ler.umInt()-1900;//rever
-                    
+                    int ano2 = Ler.umInt() - 1900;//rever
+
                     System.out.println("Indique o mes da data mais antiga:");
-                    int mes2 = Ler.Mes()-1;
-                    
+                    int mes2 = Ler.Mes() - 1;
+
                     System.out.println("Indique o dia da data mais antiga:");
                     int dia2 = Ler.dia();
-                    
+
                     System.out.println("Indique a hora da data mais antiga:");
                     int hrs2 = Ler.umInt();
-                    
-                    
+
                     System.out.println("Indique o minuto da data mais antiga:");
                     int min2 = Ler.umInt();
-                    
+
                     dataMaisVelha = new Date(ano2, mes2, dia2, hrs2, min2);
-                    
-                    noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);                  
-                    if(noticiasResultado.isEmpty()){
+
+                    noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);
+
+                    Socket subsSocket = new Socket("127.0.0.1", 2222);
+
+                    ObjectOutputStream oos = new ObjectOutputStream(subsSocket.getOutputStream());
+                    oos.writeObject(nomeTopico1);
+                    oos.flush();
+
+                    ObjectOutputStream oos2 = new ObjectOutputStream(subsSocket.getOutputStream());
+                    oos2.writeObject(dataMaisRecente);
+                    oos2.flush();
+
+                    ObjectOutputStream oos3 = new ObjectOutputStream(subsSocket.getOutputStream());
+                    oos3.writeObject(dataMaisVelha);
+                    oos3.flush();
+
+                    ObjectInputStream ois;
+                    ois = new ObjectInputStream(subsSocket.getInputStream());
+
+                    noticiasResultado_backup = (ArrayList<Noticias>) ois.readObject();
+
+                    ois.close();
+                    oos.close();
+                    oos2.close();
+                    oos3.close();
+                    subsSocket.close();
+
+                    if (noticiasResultado.isEmpty() && noticiasResultado_backup.isEmpty()) {
                         System.out.println("Sem noticias para serem mostradas entre essas datas.");
+                        continue;
                     }
-                    else{
-                    System.out.println(noticiasResultado.toString());
+                    if (!noticiasResultado.isEmpty()) {
+                        System.out.println(noticiasResultado.toString());
                     }
-                    
-                }
-                
-                else if (opcao == 3) {
+                    if (!noticiasResultado_backup.isEmpty()) {
+                        System.out.println(noticiasResultado_backup.toString());
+                    }
+
+                } else if (opcao == 3) {
                     System.out.println("Indique o topico");
                     String nometopico = Ler.umaString();
                     noticia = si.UltimaNoticia(nometopico);

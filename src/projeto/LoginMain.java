@@ -31,7 +31,7 @@ public class LoginMain implements Serializable {
         tipo = 0;
         nome = "";
         pass = "";
-        id=id; 
+        id = id;
 
     }
 
@@ -73,149 +73,130 @@ public class LoginMain implements Serializable {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        
-        
+
         LerFicheiro LF = new LerFicheiro();
         GuardarDados GD = new GuardarDados();
-        
-        
-        
+
         System.setSecurityManager(new SecurityManager());
 
         try {
             ServerRMIInterface si = (ServerRMIInterface) Naming.lookup("rmi://127.0.0.1:1099/ServerRMI");
-        
 
-        
+            while (true) {
 
-        while (true) {
-            
-            System.out.println("1 - Registar \n2 - Login \n3 - Subscribers sem registo \n0 - Sair");
-            int opcaologin = Ler.umInt(); //Ler a opçao de cima
-            
-            
-            System.out.println("Opcao no login "+ opcaologin);
-            
-            if (opcaologin == 1) { //Registar
-                
-                int tipo;
-                String user = "";
-                String pw = "";
-                
-                System.out.println("1 - Publisher \n2 - Subscribers");
-                tipo = Ler.umInt();
-                
-                
-                if (tipo == 1) {
-                    
-                    System.out.println("Username:");
-                    user = Ler.umaString();
-                    if (si.checkuser(user, tipo)==false){
-                        
-                        System.out.println("Passowrd:");
-                        pw = Ler.umaString();
-                        
-                        if (si.createUser(user, pw, tipo)){
-                        
-                        System.out.println("Registado como publisher!"); //registar publisher do lado do servidor;
+                System.out.println("1 - Registar \n2 - Login \n3 - Subscribers sem registo \n0 - Sair");
+                int opcaologin = Ler.umInt(); //Ler a opçao de cima
+
+                System.out.println("Opcao no login " + opcaologin);
+
+                if (opcaologin == 1) { //Registar
+
+                    int tipo;
+                    String user = "";
+                    String pw = "";
+
+                    System.out.println("1 - Publisher \n2 - Subscribers");
+                    tipo = Ler.umInt();
+
+                    if (tipo == 1) {
+
+                        System.out.println("Username:");
+                        user = Ler.umaString();
+                        if (si.checkuser(user, tipo) == false) {
+
+                            System.out.println("Passowrd:");
+                            pw = Ler.umaString();
+
+                            if (si.createUser(user, pw, tipo)) {
+
+                                System.out.println("Registado como publisher!"); //registar publisher do lado do servidor;
+                            } else {
+                                System.out.println("User não registado!");
+                            }
+                        } else {
+                            System.out.println("User já registado!");
                         }
-                         else
-                            System.out.println("User não registado!");
-                    }
-                    else{
-                        System.out.println("User já registado!");
-                    }
-                    
 
-                    
-                }
-                if (tipo == 2) {
-                    
-                    System.out.println("Username:");
-                    user = Ler.umaString();
-                    
-                    if (si.checkuser(user, tipo)==false){
-                        
-                        System.out.println("Passowrd:");
-                        pw = Ler.umaString();
-                        
-                        if (si.createUser(user, pw, tipo)){
-                        
-                        System.out.println("Registado como subscriber!"); //registar subscriber do lado do servidor;
+                    }
+                    if (tipo == 2) {
+
+                        System.out.println("Username:");
+                        user = Ler.umaString();
+
+                        if (si.checkuser(user, tipo) == false) {
+
+                            System.out.println("Passowrd:");
+                            pw = Ler.umaString();
+
+                            if (si.createUser(user, pw, tipo)) {
+
+                                System.out.println("Registado como subscriber!"); //registar subscriber do lado do servidor;
+                            } else {
+                                System.out.println("User não registado!");
+                            }
+                        } else {
+                            System.out.println("User já registado!");
                         }
-                         else
-                            System.out.println("User não registado!");
+
                     }
-                    else{
-                        System.out.println("User já registado!");
+                }
+
+                if (opcaologin == 2) {//Login
+
+                    int tipouser;
+                    String user = "";
+                    String password = "";
+
+                    int id = 0;
+                    Publisher p;
+                    Subscriber s = null;
+
+                    System.out.println("1 - Publisher \n2 - Subscriber");
+                    tipouser = Ler.umInt(); //tipo de utilizador
+
+                    if (tipouser == 1) {
+                        System.out.println("Username?");
+                        user = Ler.umaString();
+                        System.out.println("Password?");
+                        password = Ler.umaString();
+
+                        if ((id = si.LOGIN(user, password, tipouser)) != -1) //se for diferente -1
+                        {
+                            p = new Publisher(id, user, (ServerRMIInterface) si);
+                        } else {
+                            System.out.println("Dados Errados de Login");
+                        }
+
                     }
 
-                }
-            }
-            
-            if (opcaologin == 2) {//Login
-                
-                int tipouser;
-                String user = "";
-                String password = "";
-                
-                int id = 0;
-                Publisher p;
-                Subscriber s=null;
-                
-                
-                System.out.println("1 - Publisher \n2 - Subscriber");
-                tipouser = Ler.umInt(); //tipo de utilizador
-                
-                if (tipouser == 1) {
-                    System.out.println("Username?");
-                    user = Ler.umaString();
-                    System.out.println("Password?");
-                    password = Ler.umaString();
+                    if (tipouser == 2) {
+                        System.out.println("Username?");
+                        user = Ler.umaString();
+                        System.out.println("Password?");
+                        password = Ler.umaString();
 
-                    if((id = si.LOGIN(user, password, tipouser))!=-1) //se for diferente -1
-                        p = new Publisher(id, user, (ServerRMIInterface) si);
-                    else
-                        System.out.println("Dados Errados de Login");
-                        
+                        if ((id = si.LOGIN(user, password, tipouser)) != -1) //se for diferente de -1
+                        {
 
-                }
-                
-                if (tipouser == 2) {
-                    System.out.println("Username?");
-                    user = Ler.umaString();
-                    System.out.println("Password?");
-                    password = Ler.umaString();
+                            s = new Subscriber(user, id, (ServerRMIInterface) si);
 
-                    if((id = si.LOGIN(user, password, tipouser))!=-1) //se for diferente de -1
-                    {  
-                         
-                        s = new Subscriber (user, id, (ServerRMIInterface) si);
-                        
+                        } else {
+                            System.out.println("Dados Errados de Login");
+                        }
+
                     }
-                    else
-                        System.out.println("Dados Errados de Login");
-                        
 
-                }
-                
-            } 
-            
-            else if (opcaologin == 3) {
+                } else if (opcaologin == 3) {
                     Subscriber sub = new Subscriber(3, si);
-            }
-            
-            else if (opcaologin == 0)
-            {
-                
+                } else if (opcaologin == 0) {
+
                     exit(0);
-                    
-            }  
-    }
-            
-    
-     } catch (Exception e) {
+
+                }
+            }
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-}
+    }
 }

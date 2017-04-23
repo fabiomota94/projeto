@@ -16,36 +16,32 @@ import java.util.ArrayList;
  *
  * @author TiagoMartins
  */
-public class ServidorBackup{
-    
-     public static void main(String[] args) throws IOException, ClassNotFoundException{  
-   
-         
-         ServerSocket servers = null;
-         Socket s;
-         Connection t;
-         ArrayList <Topico> topicosbackup = new ArrayList();
-         LerFicheiro lf = new LerFicheiro();
-  
-         // ler no ficheiro ficheiro back
-         
-         topicosbackup = lf.LerBackup();
-         
+public class ServidorBackup {
 
-        servers = new ServerSocket (2222);
-  
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+
+        ServerSocket servers = null;
+        Socket s;
+        Connection t;
+        ArrayList<Topico> topicosbackup = new ArrayList();
+        LerFicheiro lf = new LerFicheiro();
+
+        // ler no ficheiro ficheiro back
+        topicosbackup = lf.LerBackup();
+
+        servers = new ServerSocket(2222);
+
         try {
             while (true) {
-                
+
                 s = servers.accept();
-                t = new Connection (s,topicosbackup);
-                
-            } 
-        }
-        catch (IOException e) {
-        
+                t = new Connection(s, topicosbackup);
+
+            }
+        } catch (IOException e) {
+
             System.out.println("Erro!");
-        } 
-    }     
+        }
+    }
 
 }

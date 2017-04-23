@@ -13,18 +13,17 @@ import java.io.Serializable;
  * @author TiagoMartins
  */
 public class Subscritores implements Serializable {
-    
+
     private int ids;
     private SubscriberInterface subscribers;
 
-    public Subscritores (){
-        
-       ids = -1;
-       subscribers = null;
-       
-       
+    public Subscritores() {
+
+        ids = -1;
+        subscribers = null;
+
     }
-    
+
     public Subscritores(int ids, SubscriberInterface subscribers) {
         this.ids = ids;
         this.subscribers = subscribers;
@@ -37,7 +36,6 @@ public class Subscritores implements Serializable {
     public SubscriberInterface getSubscribers() {
         return subscribers;
     }
-  
 
     public void setIds(int ids) {
         this.ids = ids;
@@ -49,7 +47,7 @@ public class Subscritores implements Serializable {
 
     @Override
     public String toString() {
-        return "Subscritores{" + "ids=" + ids + ", subscribers=" + subscribers + '}';
+        return "Subscritores{" + "ID'S=" + ids + ", subscribers=" + subscribers + '}';
     }
-  
+
 }
