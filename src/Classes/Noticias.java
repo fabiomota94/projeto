@@ -1,13 +1,11 @@
+
 package Classes;
 
 import java.io.Serializable;
-
 import java.util.Date;
 
-/**
- *
- * @author Fábio, João, Tiago
- */
+// @authors: Tiago Jesus – a30961, João Saraiva, – a33345 Fábio Mota – a34693 UBI 2016/2017-SD
+
 public class Noticias implements Serializable {
 
     private String conteudo;

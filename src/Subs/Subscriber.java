@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Subs;
 
 import Classes.Noticias;
@@ -16,10 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import projeto.Ler;
 
-/**
- *
- * @author Fábio, Tiago, João
- */
+// @authors: Tiago Jesus – a30961, João Saraiva, – a33345 Fábio Mota – a34693 UBI 2016/2017-SD
+
 public class Subscriber extends java.rmi.server.UnicastRemoteObject implements SubscriberInterface, Serializable {
 
     private int id;
@@ -51,10 +45,11 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
         try {
 
             while (true) {
+                System.out.println("------Subscriber sem Registo------\n");
                 int opcao = 0;
                 Noticias noticia;
-                System.out.println("1 - Consultar Noticia de um topico(entre datas)");
-                System.out.println("2 - Consultar a Ultima noticia do Topico");
+                System.out.println("1 - Consultar noticia de um topico(entre datas)");
+                System.out.println("2 - Consultar a ultima noticia do topico");
                 System.out.println("0 - Sair");
                 opcao = Ler.umInt();
                 if (opcao == 1) {
@@ -150,7 +145,11 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     System.out.println("Indique o topico");
                     String nometopico = Ler.umaString();
                     noticia = si.UltimaNoticia(nometopico);
+                    
+                    if(noticia!=null)
                     System.out.println(noticia.toString());
+                    else
+                        System.out.println("Topico Inválido ou sem noticas ainda!");
                 } else if (opcao == 0) {
                     break;
                 }
@@ -164,7 +163,7 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
 
         try {
 
-            System.out.println("Subscriber id: " + idi + "," + nome);
+            
 
             Subscriber subupdate = new Subscriber();
             si.updatesubs(idi, subupdate);
@@ -172,20 +171,22 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
             while (true) {
 
                 Noticias noticia;
-
+                System.out.println("------Subscriber: " + nome + " ------\n");
                 System.out.println("1 - Subscrever um tópico");
-                System.out.println("2 - Constular Noticia de um topico (Entre datas)");
+                System.out.println("2 - Consultar Noticia de um topico (Entre datas)");
                 System.out.println("3 - Consultar a Ultima noticia do Topico");
                 System.out.println("0 - Sair");
                 int opcao = Ler.umInt();
-                System.out.println("Opcao escolhida");
+                
                 if (opcao == 1) {
-                    System.out.println("1 - Subscrever um tópico");
+                    System.out.println("1 - Topico que pretende subscrever?");
                     String nt = Ler.umaString();
                     Subscriber sub = new Subscriber();
 
-                    si.subscribe(nt, idi, (SubscriberInterface) sub);
-                    System.out.println("Topico Subscrito");
+                    if(si.subscribe(nt, idi, (SubscriberInterface) sub))
+                        System.out.println("Topico Subscrito");
+                    else
+                        System.out.println("Topico já subscrito ou não existe");
 
                 } else if (opcao == 2) {
 
@@ -281,7 +282,10 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     System.out.println("Indique o topico");
                     String nometopico = Ler.umaString();
                     noticia = si.UltimaNoticia(nometopico);
-                    System.out.println(noticia.toString());
+                    if(noticia!=null)
+                        System.out.println(noticia.toString());
+                    else
+                        System.out.println("Topico Inválido ou sem noticas ainda!");
                 } else if (opcao == 0) {
                     break;
                 }

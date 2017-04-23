@@ -12,10 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import projeto.Ler;
 
-/**
- *
- * @author Fábio
- */
+// @authors: Tiago Jesus – a30961, João Saraiva, – a33345 Fábio Mota – a34693 UBI 2016/2017-SD
+
 public class Publisher {
 
     private int id;
@@ -29,11 +27,11 @@ public class Publisher {
         this.nome = nome;
         ArrayList<Topico> consultar = null;
 
-        System.out.println("Publisher: " + nome);
 
         try {
 
             while (true) {
+                System.out.println("------Publisher: " + nome + " ------\n");
                 System.out.println("1 - Add topico \n2 - Consultar Tópicos Existentes \n3 - Inserir Noticia em Topico \n4 - Consultar  Todas as noticias Publicadas");
                 System.out.println("0 - Sair");
                 int op = Ler.umInt();
@@ -65,16 +63,16 @@ public class Publisher {
                         s2 = Ler.umaNoticia();
                         Date data = new Date();
 
-                        System.out.println("Data " + data);
+                        
                         novanoticia.setData(data);
                         novanoticia.setAutor(id);
                         novanoticia.setConteudo(s2);
-                        System.out.println("Autor que criou foi o " + id);
                         si.addNoticia(novanoticia, s);
-                        System.out.println("Noticia adicionada com sucesso");
+                        System.out.println("Noticia adcionada com sucesso por " + nome + " em " + data);
+                        
 
                     } else {
-                        System.out.println("Topic não existe");
+                        System.out.println("Topico não existe");
                     }
 
                 } else if (op == 4) {

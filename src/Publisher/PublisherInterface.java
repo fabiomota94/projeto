@@ -5,10 +5,8 @@
  */
 package Publisher;
 
-/**
- *
- * @author Fábio
- */
+// @authors: Tiago Jesus – a30961, João Saraiva, – a33345 Fábio Mota – a34693 UBI 2016/2017-SD
+
 public interface PublisherInterface {
     
 }

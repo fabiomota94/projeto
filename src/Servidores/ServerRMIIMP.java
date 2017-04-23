@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Servidores;
 
 import java.rmi.RemoteException;
@@ -20,10 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import projeto.LoginMain;
 
-/**
- *
- * @author Fábio
- */
+// @authors: Tiago Jesus – a30961, João Saraiva, – a33345 Fábio Mota – a34693 UBI 2016/2017-SD
+
 public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterface {
 
     public static ArrayList<Topico> d = new ArrayList();
@@ -47,11 +41,12 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         subs = lf.LerFileSubscribers();
         id_user = lf.LerID();
 
-        System.out.println(d.toString());
-        System.out.println(pub.toString());
-        System.out.println(subs.toString());
-        System.out.println(topbackup.toString());
+        System.out.println("Topicos:" + d.toString());
+        System.out.println("Publisher:" + pub.toString());
+        System.out.println("Subscriber: " + subs.toString());
+        System.out.println("TopicosBackup:" + topbackup.toString());
         System.out.println("ID: " + id_user);
+        System.out.println("----Leitura dos Ficheiros OK!-----");
     }
 
     //Registar
@@ -179,11 +174,11 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
                 Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            System.out.println("Server : " + d.toString());
+            //System.out.println("Server : " + d.toString());
             return false;
 
         } else {
-            System.out.println("Já existe este topico");
+            //System.out.println("Já existe este topico");
 
             return true;
 
@@ -235,7 +230,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             if (d.get(i).getNometopico().equals(ntopico)) {
                 posicao = i;
                 d.get(i).addNovaNoticia(noticia);
-       //         System.out.println("Adicionado ao Array D a noticia " + noticia.toString());
+                //System.out.println("Adicionado ao Array D a noticia " + noticia.toString());
             }
         }
         try {
@@ -357,9 +352,11 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         return null;
     }
 
-    public void subscribe(String tp, int id, SubscriberInterface subs) throws java.rmi.RemoteException {
+    public boolean subscribe(String tp, int id, SubscriberInterface subs) throws java.rmi.RemoteException {
+        
         Subscritores objeto = new Subscritores();
         ArrayList<Subscritores> array = null;
+        int posicao=-1;
 
         for (int i = 0; i < d.size(); i++) {
 
@@ -369,15 +366,24 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
 
                 for (int j = 0; j < array.size(); j++) {
                     if (array.get(j).getIds() == id) {
-                        return;
+                        return false;   
+                        
                     }
                 }
+            posicao = i;   
             }
-
-            objeto.setIds(id);
-            objeto.setSubscribers(subs);
-            d.get(i).addSubcritores(objeto);
         }
+            if (posicao!=-1){
+                objeto.setIds(id);
+                objeto.setSubscribers(subs);
+                d.get(posicao).addSubcritores(objeto);
+                System.out.println("Nao devia chegar aqui!");
+                return true;
+            }
+            else 
+                return false;
+            
+            
 
     }
 

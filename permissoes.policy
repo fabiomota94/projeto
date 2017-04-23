@@ -1,5 +1,9 @@
 grant {
-// allows anyone to listen on un-privileged ports
 permission java.net.SocketPermission "*:1024-65535", "listen,accept,connect";
-permission java.security.AllPermission;
+permission java.net.SocketPermission "2222", "listen,accept,connect";
+permission java.io.FilePermission "ids.dat", "read,write";
+permission java.io.FilePermission "publishers.dat", "read,write";
+permission java.io.FilePermission "subscribers.dat", "read,write";
+permission java.io.FilePermission "topicos.dat", "read,write";
+permission java.io.FilePermission "topicosbackup.dat", "read,write";
 };

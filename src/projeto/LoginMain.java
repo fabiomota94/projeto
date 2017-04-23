@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package projeto;
 
 import Ficheiros.GuardarDados;
@@ -15,10 +11,9 @@ import java.io.Serializable;
 import static java.lang.System.exit;
 import java.rmi.Naming;
 
-/**
- *
- * @author Fábio
- */
+
+// @authors: Tiago Jesus – a30961, João Saraiva, – a33345 Fábio Mota – a34693 UBI 2016/2017-SD
+ 
 public class LoginMain implements Serializable {
 
     public int tipo;
@@ -83,18 +78,17 @@ public class LoginMain implements Serializable {
             ServerRMIInterface si = (ServerRMIInterface) Naming.lookup("rmi://127.0.0.1:1099/ServerRMI");
 
             while (true) {
-
+                System.out.println("------Bemvindo------\n");
                 System.out.println("1 - Registar \n2 - Login \n3 - Subscribers sem registo \n0 - Sair");
                 int opcaologin = Ler.umInt(); //Ler a opçao de cima
 
-                System.out.println("Opcao no login " + opcaologin);
 
                 if (opcaologin == 1) { //Registar
-
+                    System.out.println("------Registar------\n");
                     int tipo;
                     String user = "";
                     String pw = "";
-
+                    
                     System.out.println("1 - Publisher \n2 - Subscribers");
                     tipo = Ler.umInt();
 
@@ -142,7 +136,7 @@ public class LoginMain implements Serializable {
                 }
 
                 if (opcaologin == 2) {//Login
-
+                    System.out.println("------Login------\n");
                     int tipouser;
                     String user = "";
                     String password = "";
