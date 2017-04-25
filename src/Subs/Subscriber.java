@@ -69,36 +69,36 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     ArrayList<Noticias> noticiasResultado = new ArrayList();
                     ArrayList<Noticias> noticiasResultado_backup = new ArrayList();
 
-                    System.out.println("Indique o ano da data mais recente:");
+                    System.out.println("Indique o ANO da data mais Antiga:");
                     int ano = Ler.umInt() - 1900;
 
-                    System.out.println("Indique o mes da data mais recente:");
+                    System.out.println("Indique o MES da data mais Antiga:");
                     int mes = Ler.Mes() - 1;
 
-                    System.out.println("Indique o dia da data mais recente:");
+                    System.out.println("Indique o DIA da data mais Antiga:");
                     int dia = Ler.dia();
 
-                    System.out.println("Indique a hora da data mais recente:");
+                    System.out.println("Indique a HORA da data mais Antiga:");
                     int hrs = Ler.umInt();
 
-                    System.out.println("Indique o minuto da data mais recente:");
+                    System.out.println("Indique o MINUTO da data mais Antiga:");
                     int min = Ler.umInt();
 
                     dataMaisRecente = new Date(ano, mes, dia, hrs, min);
 
-                    System.out.println("Indique o ano da data mais antiga:");
+                    System.out.println("Indique o ANO da data mais Recente:");
                     int ano2 = Ler.umInt() - 1900;//rever
 
-                    System.out.println("Indique o mes da data mais antiga:");
+                    System.out.println("Indique o MES da data mais Recente:");
                     int mes2 = Ler.Mes() - 1;
 
-                    System.out.println("Indique o dia da data mais antiga:");
+                    System.out.println("Indique o DIA da data mais Recente:");
                     int dia2 = Ler.dia();
 
-                    System.out.println("Indique a hora da data mais antiga:");
+                    System.out.println("Indique a HORA da data mais Recente:");
                     int hrs2 = Ler.umInt();
 
-                    System.out.println("Indique o minuto da data mais antiga:");
+                    System.out.println("Indique o MINUTO da data mais Recente:");
                     int min2 = Ler.umInt();
 
                     dataMaisVelha = new Date(ano2, mes2, dia2, hrs2, min2);
