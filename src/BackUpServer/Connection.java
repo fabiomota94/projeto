@@ -30,6 +30,7 @@ public class Connection extends Thread {
         tpbackup = lf.LerBackup();
         S = s;
         tpbackup = topicosbackup;
+        System.out.println(tpbackup.toString()); //só para verificação
         start();
 
     }
@@ -62,7 +63,7 @@ public class Connection extends Thread {
             resultado_final = MostarNoticiasEntreData0_backups(resultado_filtrado, dataRecente, dataVelha);
 
             /**
-             * escre as noticias q tem a escrever *
+             * escreve as noticias q tem a escrever *
              */
             ObjectOutputStream oos = new ObjectOutputStream(S.getOutputStream());
             oos.writeObject(resultado_final);

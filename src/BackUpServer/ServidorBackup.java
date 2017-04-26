@@ -22,8 +22,10 @@ public class ServidorBackup {
 
         // ler no ficheiro ficheiro back
         topicosbackup = lf.LerBackup();
+        System.out.println(topicosbackup.toString()); //verificação apenas, apagar
 
         servers = new ServerSocket(2222);
+        System.out.println("------Backup Server Online------\n");
 
         try {
             while (true) {
