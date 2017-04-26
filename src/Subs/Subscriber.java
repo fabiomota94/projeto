@@ -105,7 +105,7 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
 
                     noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);
 
-                    Socket subsSocket = new Socket("172.20.10.3", 2222);
+                    Socket subsSocket = new Socket("172.0.0.1", 2222);
 
                     ObjectOutputStream falar = new ObjectOutputStream(subsSocket.getOutputStream());
                     
@@ -208,70 +208,67 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     ArrayList<Noticias> noticiasResultado = new ArrayList();
                     ArrayList<Noticias> noticiasResultado_backup = new ArrayList();
 
-                    System.out.println("Indique o ano da data mais recente:");
+                    System.out.println("Indique o ANO da data mais Antiga:");
                     int ano = Ler.umInt() - 1900;
 
-                    System.out.println("Indique o mes da data mais recente:");
+                    System.out.println("Indique o MES da data mais Antiga:");
                     int mes = Ler.Mes() - 1;
 
-                    System.out.println("Indique o dia da data mais recente:");
+                    System.out.println("Indique o DIA da data mais Antiga:");
                     int dia = Ler.dia();
 
-                    System.out.println("Indique a hora da data mais recente:");
+                    System.out.println("Indique a HORA da data mais Antiga:");
                     int hrs = Ler.umInt();
 
-                    System.out.println("Indique o minuto da data mais recente:");
+                    System.out.println("Indique o MINUTO da data mais Antiga:");
                     int min = Ler.umInt();
 
                     dataMaisRecente = new Date(ano, mes, dia, hrs, min);
 
-                    System.out.println("Indique o ano da data mais antiga:");
+                    System.out.println("Indique o ANO da data mais Recente:");
                     int ano2 = Ler.umInt() - 1900;//rever
 
-                    System.out.println("Indique o mes da data mais antiga:");
+                    System.out.println("Indique o MES da data mais Recente:");
                     int mes2 = Ler.Mes() - 1;
 
-                    System.out.println("Indique o dia da data mais antiga:");
+                    System.out.println("Indique o DIA da data mais Recente:");
                     int dia2 = Ler.dia();
 
-                    System.out.println("Indique a hora da data mais antiga:");
+                    System.out.println("Indique a HORA da data mais Recente:");
                     int hrs2 = Ler.umInt();
 
-                    System.out.println("Indique o minuto da data mais antiga:");
+                    System.out.println("Indique o MINUTO da data mais Recente:");
                     int min2 = Ler.umInt();
 
                     dataMaisVelha = new Date(ano2, mes2, dia2, hrs2, min2);
 
                     noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);
 
-                    Socket subsSocket = new Socket("127.0.0.1", 2222);
+                    Socket subsSocket = new Socket("172.0.0.1", 2222);
 
-                    ObjectOutputStream oos = new ObjectOutputStream(subsSocket.getOutputStream());
+                    ObjectOutputStream falar = new ObjectOutputStream(subsSocket.getOutputStream());
                     
-                    oos.writeInt(1);
-                    oos.flush();
+                    falar.writeInt(1);
+                    falar.flush();
                     
+                    falar.writeObject(nomeTopico1);
+                    falar.flush();
+
                     
-                    oos.writeObject(nomeTopico1);
-                    oos.flush();
+                    falar.writeObject(dataMaisRecente);
+                    falar.flush();
 
-                    ObjectOutputStream oos2 = new ObjectOutputStream(subsSocket.getOutputStream());
-                    oos2.writeObject(dataMaisRecente);
-                    oos2.flush();
+                  
+                    falar.writeObject(dataMaisVelha);
+                    falar.flush();
 
-                    ObjectOutputStream oos3 = new ObjectOutputStream(subsSocket.getOutputStream());
-                    oos3.writeObject(dataMaisVelha);
-                    oos3.flush();
+                    ObjectInputStream ouvir;
+                    ouvir = new ObjectInputStream(subsSocket.getInputStream());
 
-                    ObjectInputStream ois;
-                    ois = new ObjectInputStream(subsSocket.getInputStream());
+                    noticiasResultado_backup = (ArrayList<Noticias>) ouvir.readObject();
 
-                    noticiasResultado_backup = (ArrayList<Noticias>) ois.readObject();
-
-                    ois.close();
-                    oos.close();
-                    oos2.close();
-                    oos3.close();
+                    ouvir.close();
+                    falar.close();
                     subsSocket.close();
 
                     if (noticiasResultado.isEmpty() && noticiasResultado_backup.isEmpty()) {
@@ -282,7 +279,7 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                         System.out.println(noticiasResultado.toString());
                     }
                     if (!noticiasResultado_backup.isEmpty()) {
-                        System.out.println(noticiasResultado_backup.toString());
+                        System.out.println("Backup:" + noticiasResultado_backup.toString());
                     }
 
                 } else if (opcao == 3) {

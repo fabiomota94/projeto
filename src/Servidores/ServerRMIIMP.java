@@ -24,7 +24,6 @@ import projeto.LoginMain;
 public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterface {
 
     public static ArrayList<Topico> d = new ArrayList();
-    public static ArrayList<Topico> topbackup = new ArrayList();
     public static ArrayList<LoginMain> pub = new ArrayList(); //array de Publishers
     public static ArrayList<LoginMain> subs = new ArrayList(); //array de subscribers
 
@@ -40,7 +39,6 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         super();
         d = lf.LerTopico();
         limite_max = lf.LerLimite();
-        topbackup = lf.LerBackup();
         pub = lf.LerFilePublishers();
         subs = lf.LerFileSubscribers();
         id_user = lf.LerID();
@@ -48,7 +46,6 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         System.out.println("Topicos:" + d.toString());
         System.out.println("Publisher:" + pub.toString());
         System.out.println("Subscriber: " + subs.toString());
-        System.out.println("TopicosBackup:" + topbackup.toString());
         System.out.println("ID: " + id_user);
         System.out.println("----Leitura dos Ficheiros OK!-----");
     }
@@ -171,7 +168,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             try {
                 gd.guardartop(d);
                 
-                Socket newsocket = new Socket("172.20.10.3", 2222);
+                Socket newsocket = new Socket("172.0.0.1", 2222);
                 ObjectOutputStream falar = new ObjectOutputStream(newsocket.getOutputStream());
                                
                 
@@ -281,7 +278,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
                 
             if ((limite_max/2)<d.get(posicao).getNoticias().size()){
                 
-                Socket s = new Socket("172.20.10.3", 2222);
+                Socket s = new Socket("172.0.0.1", 2222);
                 ArrayList<Noticias> noticias_enviar = new ArrayList();
             
                 ObjectOutputStream falar = new ObjectOutputStream(s.getOutputStream());
@@ -344,7 +341,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         }
         
         try {
-            Socket s = new Socket("172.20.10.3", 2222);
+            Socket s = new Socket("127.0.0.1", 2222);
             
             ObjectOutputStream falar = new ObjectOutputStream(s.getOutputStream());
             ObjectInputStream ouvir = new ObjectInputStream (s.getInputStream());

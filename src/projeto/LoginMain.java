@@ -75,7 +75,7 @@ public class LoginMain implements Serializable {
         System.setSecurityManager(new SecurityManager());
 
         try {
-            ServerRMIInterface si = (ServerRMIInterface) Naming.lookup("rmi://172.20.10.3:1099/ServerRMI");
+            ServerRMIInterface si = (ServerRMIInterface) Naming.lookup("rmi://127.0.0.1:1099/ServerRMI");
 
             while (true) {
                 System.out.println("--------Bemvindo--------");
