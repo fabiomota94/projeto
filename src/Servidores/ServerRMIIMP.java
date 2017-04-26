@@ -11,6 +11,9 @@ import Ficheiros.GuardarDados;
 import Ficheiros.LerFicheiro;
 import Subs.SubscriberInterface;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -305,20 +308,18 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
         }
-       // System.out.println("\nDepois");
-       // System.out.println("D " + d.toString());
-       // System.out.println("Backup " + topbackup.toString());
-
+       
         return true;
     }
 
     public ArrayList<Noticias> ConsultarNoticisPub(int id) throws java.rmi.RemoteException {
 
-        System.out.println("Mostrar Topcios");
-        System.out.println(d.toString());
+        //System.out.println("Mostrar Topicos");
+        //System.out.println(d.toString());
 
         ArrayList<Noticias> n;
         ArrayList<Noticias> n1 = new ArrayList();
+
 
         for (int i = 0; i < d.size(); i++) {
 
@@ -334,6 +335,29 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             }
 
         }
+        
+        try {
+            Socket s = new Socket("127.0.0.1", 2222);
+            
+            ObjectOutputStream falar = new ObjectOutputStream(s.getOutputStream());
+            ObjectInputStream ouvir = new ObjectInputStream (s.getInputStream());
+            ArrayList<Noticias> n3 = new ArrayList();
+                    
+            falar.writeInt(2);
+            falar.flush();
+            falar.writeInt(id);
+            falar.flush();
+            
+            n3 = (ArrayList<Noticias>) ouvir.readObject();
+            
+            n1.addAll(n3);
+            
+        } catch (IOException ex) {
+            Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
 
         return n1;
     }

@@ -38,40 +38,72 @@ public class Connection extends Thread {
     public void run() {
 
         
+        
+        
         try {
-
-            /**
-             * O server vai ouvir primeiro, e aqui vem o nome do Topico onde
-             * queremos procurar as noticias *
-             */
-            ObjectInputStream ois = new ObjectInputStream(S.getInputStream());
-            String nomeTopico = (String) ois.readObject();
+            
+            ObjectInputStream ouvir = new ObjectInputStream(S.getInputStream());
+            ObjectOutputStream falar = new ObjectOutputStream(S.getOutputStream());
+            
+            
+            int opcao = (int) ouvir.readInt();
+            System.out.println("Opção:" + opcao);
+            
+            if(opcao == 1){ //verificar datas no backup
+            
+            
+            String nomeTopico = (String) ouvir.readObject(); //ouve o nome do topico
+            
             ArrayList<Noticias> resultado_filtrado = filtraNoticias_de_um_topico(nomeTopico);
             ArrayList<Noticias> resultado_final = new ArrayList();
-            /**
-             * ouve a Data *
-             */
-            ObjectInputStream ois2 = new ObjectInputStream(S.getInputStream());
-            Date dataRecente = (Date) ois2.readObject();
+            
+            
+            Date dataRecente = (Date) ouvir.readObject(); //ouve a Data 
 
-            /**
-             * Ouve a segunda data *
-             */
-            ObjectInputStream ois3 = new ObjectInputStream(S.getInputStream());
-            Date dataVelha = (Date) ois3.readObject();
+            Date dataVelha = (Date) ouvir.readObject(); //Ouve a segunda data 
+                  
 
             resultado_final = MostarNoticiasEntreData0_backups(resultado_filtrado, dataRecente, dataVelha);
 
-            /**
-             * escreve as noticias q tem a escrever *
-             */
-            ObjectOutputStream oos = new ObjectOutputStream(S.getOutputStream());
-            oos.writeObject(resultado_final);
-            oos.flush();
+            // escreve as noticias q tem a escrever 
+            
+            falar.writeObject(resultado_final);
+            falar.flush();
 
-            ois.close();
-            oos.flush();
-            oos.close();
+            }
+            
+        if (opcao==2){ //verificar noticias de um publisher já em backup
+             
+            ArrayList<Noticias> aux = new ArrayList();
+            ArrayList<Noticias> aux1 = null;
+             
+             int id = ouvir.readInt();
+             
+             for (int i = 0; i < tpbackup.size(); i++) {
+                 
+                 aux1 = tpbackup.get(i).getNoticias();
+                 System.out.println(aux1.toString());
+                 if(!aux1.isEmpty()){
+                 for (int j = 0; j < aux1.size(); j++) {
+                     
+                    if(aux1.get(j).getAutor()==id){
+                     
+                     aux.add(aux1.get(j));
+                    }
+                     
+                }
+                }     
+                 
+            }
+            
+             falar.writeObject(aux);
+             falar.flush();
+ 
+        }
+        
+        ouvir.close();
+        falar.close();
+        S.close();
 
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);

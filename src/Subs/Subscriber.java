@@ -108,6 +108,10 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     Socket subsSocket = new Socket("127.0.0.1", 2222);
 
                     ObjectOutputStream oos = new ObjectOutputStream(subsSocket.getOutputStream());
+                    
+                    oos.writeInt(1);
+                    oos.flush();
+                    
                     oos.writeObject(nomeTopico1);
                     oos.flush();
 
@@ -138,7 +142,7 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                         System.out.println(noticiasResultado.toString());
                     }
                     if (!noticiasResultado_backup.isEmpty()) {
-                        System.out.println(noticiasResultado_backup.toString());
+                        System.out.println("Backup: " + noticiasResultado_backup.toString());
                     }
 
                 } else if (opcao == 2) {
@@ -245,6 +249,11 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     Socket subsSocket = new Socket("127.0.0.1", 2222);
 
                     ObjectOutputStream oos = new ObjectOutputStream(subsSocket.getOutputStream());
+                    
+                    oos.writeInt(1);
+                    oos.flush();
+                    
+                    
                     oos.writeObject(nomeTopico1);
                     oos.flush();
 
