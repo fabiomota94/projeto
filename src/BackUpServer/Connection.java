@@ -84,14 +84,14 @@ public class Connection extends Thread {
                  aux1 = tpbackup.get(i).getNoticias();
                  System.out.println(aux1.toString());
                  if(!aux1.isEmpty()){
-                 for (int j = 0; j < aux1.size(); j++) {
+                    for (int j = 0; j < aux1.size(); j++) {
                      
-                    if(aux1.get(j).getAutor()==id){
+                        if(aux1.get(j).getAutor()==id){
                      
-                     aux.add(aux1.get(j));
+                        aux.add(aux1.get(j));
+                        }
+                     
                     }
-                     
-                }
                 }     
                  
             }
@@ -117,8 +117,19 @@ public class Connection extends Thread {
                      
                     tpbackup.get(i).getNoticias().addAll(noticias_receber);
                      
-                }
-        }     
+             }
+        }
+        
+        if (opcao==4){ //adicionar topico no ficheiro de backup
+             
+             String ntopico = (String) ouvir.readObject();
+             
+             Topico tp = new Topico();
+             
+             tp.setNomeTopico(ntopico);
+             
+             tpbackup.add(tp);
+        }
                  
         
         ouvir.close();

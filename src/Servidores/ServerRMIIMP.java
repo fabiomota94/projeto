@@ -168,21 +168,29 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             Topico c = new Topico();
             c.setNomeTopico(s);
             d.add(c);
-            topbackup.add(c);
             try {
                 gd.guardartop(d);
-                gd.guardarbackup(topbackup);
+                
+                Socket socket = new Socket("172.20.10.3", 2222);
+                ObjectOutputStream falar = new ObjectOutputStream(socket.getOutputStream());
+                falar.writeInt(4);
+                falar.flush();
+                falar.writeObject(c);
+                falar.flush();
+                socket.close();
+                falar.close();
+      
             } catch (IOException ex) {
                 Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            //System.out.println("Server : " + d.toString());
+            
             return false;
 
         } else {
-            //System.out.println("Já existe este topico");
+            
 
             return true;
 
@@ -263,7 +271,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         
             try {
                 
-            if ((limite_max/2)>=d.get(posicao).getNoticias().size()){
+            if ((limite_max/2)<=d.get(posicao).getNoticias().size()){
                 
                 Socket s = new Socket("172.20.10.3", 2222);
                 ArrayList<Noticias> noticias_enviar = new ArrayList();
