@@ -105,7 +105,7 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
 
                     noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);
 
-                    Socket subsSocket = new Socket("127.0.0.1", 2222);
+                    Socket subsSocket = new Socket("172.20.10.3", 2222);
 
                     ObjectOutputStream oos = new ObjectOutputStream(subsSocket.getOutputStream());
                     

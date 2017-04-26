@@ -33,12 +33,13 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
     LerFicheiro lf = new LerFicheiro();
     GuardarDados gd = new GuardarDados();
 
-    public int max;
+    public int limite_max;
 
     public ServerRMIIMP() throws RemoteException, IOException, ClassNotFoundException {
 
         super();
         d = lf.LerTopico();
+        limite_max = lf.LerLimite();
         topbackup = lf.LerBackup();
         pub = lf.LerFilePublishers();
         subs = lf.LerFileSubscribers();
@@ -259,50 +260,40 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
 
         //verificação de backup
         int posicao2 = -1;
-        try {
-            topbackup = lf.LerBackup();
-            max = lf.LerLimite();
-         //   System.out.println("MAX LIDO " + max);
-         //   System.out.println("Antes");
-         //   System.out.println("D " + d.toString());
-         //   System.out.println("Backup " + topbackup.toString());
-
-            int flag = 0;
-            int sizenoticias = d.get(posicao).getNoticias().size();
-            int mx = (max / 2);
-            int sizedobackup = topbackup.size();
-          //  System.out.println("\n sizedobackup= " + sizedobackup + "\n");
-            for (int i = 0; i < sizedobackup; i++) {
-                System.out.println("POS: " + i + " " + topbackup.get(i).toString());
-            }
-            if (sizedobackup > 0) {
-                //procuramos o topico
-                for (int i = 0; i < sizedobackup; i++) {
-                    //Posicao onde esta topico
-                    if (topbackup.get(i).getNometopico().equals(ntopico)) {
-                        flag++;
-                        posicao2 = i;
-                    }
-
-                }
-                //encontramos o topico
-                if (flag > 0) {
-
-                 //   System.out.println("Tamanho Noticias " + sizenoticias);
-                    if (sizenoticias > mx) {
-                        while (sizenoticias > mx) {
-                            topbackup.get(posicao2).addNovaNoticia(d.get(posicao).getNoticias().get(0));
+        
+            try {
+                
+            if ((limite_max/2)>=d.get(posicao).getNoticias().size()){
+                
+                Socket s = new Socket("172.20.10.3", 2222);
+                ArrayList<Noticias> noticias_enviar = new ArrayList();
+            
+                ObjectOutputStream falar = new ObjectOutputStream(s.getOutputStream());
+                ObjectInputStream ouvir = new ObjectInputStream (s.getInputStream());
+            
+   
+                falar.writeInt(3);
+                falar.flush();
+                
+                falar.writeObject(ntopico);
+                falar.flush();
+            
+                while (d.get(posicao).getNoticias().size() > (limite_max/2)) {
+                            noticias_enviar.add(d.get(posicao).getNoticias().get(0));
                             d.get(posicao).getNoticias().remove(0);
-                            sizenoticias = d.get(posicao).getNoticias().size();
                             gd.guardartop(d);
-                            gd.guardarbackup(topbackup);
-                        }
-
-                    }
-
+                           
                 }
+                
+                falar.writeObject(noticias_enviar);
+                falar.flush();
+                
+                s.close();
+                falar.close();
+                ouvir.close();
+            
             }
-
+           
         } catch (IOException ex) {
             Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -337,7 +328,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         }
         
         try {
-            Socket s = new Socket("127.0.0.1", 2222);
+            Socket s = new Socket("172.20.10.3", 2222);
             
             ObjectOutputStream falar = new ObjectOutputStream(s.getOutputStream());
             ObjectInputStream ouvir = new ObjectInputStream (s.getInputStream());

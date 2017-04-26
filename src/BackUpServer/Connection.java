@@ -101,6 +101,26 @@ public class Connection extends Thread {
  
         }
         
+        if (opcao==3){ //adicionar noticias no backup
+             
+            
+             
+             String ntopico = (String) ouvir.readObject();
+             
+             ArrayList<Noticias> noticias_receber = new ArrayList();
+             
+             noticias_receber = (ArrayList<Noticias>) ouvir.readObject();
+             
+             for (int i = 0; i < tpbackup.size(); i++) {
+                 
+                 if(tpbackup.get(i).getNometopico().equals(ntopico))
+                     
+                    tpbackup.get(i).getNoticias().addAll(noticias_receber);
+                     
+                }
+        }     
+                 
+        
         ouvir.close();
         falar.close();
         S.close();
