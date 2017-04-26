@@ -17,7 +17,7 @@ public class ServerRMI {
 
             ServerRMIIMP Server = new ServerRMIIMP();
             
-            Naming.rebind("rmi://127.0.0.1:1099/ServerRMI", Server);
+            Naming.rebind("rmi://172.20.10.3:1099/ServerRMI", Server);
             
             System.out.println("Servidor está ONLINE");
             try {
