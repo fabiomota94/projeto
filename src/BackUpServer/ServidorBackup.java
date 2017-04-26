@@ -22,10 +22,11 @@ public class ServidorBackup {
 
         // ler no ficheiro ficheiro back
         topicosbackup = lf.LerBackup();
-        System.out.println(topicosbackup.toString()); //verificação apenas, apagar
+        
 
         servers = new ServerSocket(2222);
         System.out.println("------Backup Server Online------\n");
+        System.out.println(topicosbackup.toString()); //verificação apenas, apagar
 
         try {
             while (true) {
@@ -36,7 +37,7 @@ public class ServidorBackup {
             }
         } catch (IOException e) {
 
-            System.out.println("Erro!");
+            System.out.println("Erro na execução do servidor!");
         }
     }
 

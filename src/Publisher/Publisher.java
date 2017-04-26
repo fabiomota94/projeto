@@ -68,7 +68,7 @@ public class Publisher {
                         novanoticia.setAutor(id);
                         novanoticia.setConteudo(s2);
                         si.addNoticia(novanoticia, s);
-                        System.out.println("Noticia adcionada com sucesso por " + nome + " em " + data);
+                        System.out.println("Noticia adcionada com sucesso por: " + nome + " em " + data);
                         
 
                     } else {
@@ -78,7 +78,7 @@ public class Publisher {
                 } else if (op == 4) {
 
                     ArrayList<Noticias> nconsultar;
-                    System.out.println("Vamos consultar as noticias do publisher com o id " + id);
+                    System.out.println("Todas as noticias do Publisher: " + nome);
                     nconsultar = si.ConsultarNoticisPub(id);
 
                     System.out.println(nconsultar.toString());
