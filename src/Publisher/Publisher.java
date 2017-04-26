@@ -32,7 +32,7 @@ public class Publisher {
 
             while (true) {
                 System.out.println("------Publisher: " + nome + " ------\n");
-                System.out.println("1 - Add topico \n2 - Consultar Tópicos Existentes \n3 - Inserir Noticia em Topico \n4 - Consultar  Todas as noticias Publicadas");
+                System.out.println("1 - Add topico \n2 - Consultar Tópicos Existentes \n3 - Inserir Noticia em Topico \n4 - Consultar Todas as noticias Publicadas");
                 System.out.println("0 - Sair");
                 int op = Ler.umInt();
                 if (op == 1) {
