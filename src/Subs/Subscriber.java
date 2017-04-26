@@ -107,32 +107,30 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
 
                     Socket subsSocket = new Socket("172.20.10.3", 2222);
 
-                    ObjectOutputStream oos = new ObjectOutputStream(subsSocket.getOutputStream());
+                    ObjectOutputStream falar = new ObjectOutputStream(subsSocket.getOutputStream());
                     
-                    oos.writeInt(1);
-                    oos.flush();
+                    falar.writeInt(1);
+                    falar.flush();
                     
-                    oos.writeObject(nomeTopico1);
-                    oos.flush();
+                    falar.writeObject(nomeTopico1);
+                    falar.flush();
 
-                    ObjectOutputStream oos2 = new ObjectOutputStream(subsSocket.getOutputStream());
-                    oos2.writeObject(dataMaisRecente);
-                    oos2.flush();
+                    
+                    falar.writeObject(dataMaisRecente);
+                    falar.flush();
 
-                    ObjectOutputStream oos3 = new ObjectOutputStream(subsSocket.getOutputStream());
-                    oos3.writeObject(dataMaisVelha);
-                    oos3.flush();
+                  
+                    falar.writeObject(dataMaisVelha);
+                    falar.flush();
 
-                    ObjectInputStream ois;
-                    ois = new ObjectInputStream(subsSocket.getInputStream());
+                    ObjectInputStream ouvir;
+                    ouvir = new ObjectInputStream(subsSocket.getInputStream());
 
-                    noticiasResultado_backup = (ArrayList<Noticias>) ois.readObject();
+                    noticiasResultado_backup = (ArrayList<Noticias>) ouvir.readObject();
 
-                    ois.close();
-                    oos.close();
-                    oos2.close();
-                    oos3.close();
-                    subsSocket.close();
+                ouvir.close();
+                falar.close();
+                subsSocket.close();
 
                     if (noticiasResultado.isEmpty() && noticiasResultado_backup.isEmpty()) {
                         System.out.println("Sem noticias para serem mostradas entre essas datas.");
