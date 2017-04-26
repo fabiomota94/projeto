@@ -175,7 +175,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
                 ObjectOutputStream falar = new ObjectOutputStream(socket.getOutputStream());
                 falar.writeInt(4);
                 falar.flush();
-                falar.writeObject(c);
+                falar.writeObject(s);
                 falar.flush();
                 socket.close();
                 falar.close();
@@ -271,7 +271,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         
             try {
                 
-            if ((limite_max/2)<=d.get(posicao).getNoticias().size()){
+            if ((limite_max/2)<d.get(posicao).getNoticias().size()){
                 
                 Socket s = new Socket("172.20.10.3", 2222);
                 ArrayList<Noticias> noticias_enviar = new ArrayList();
