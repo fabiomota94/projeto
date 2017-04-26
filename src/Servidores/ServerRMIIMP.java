@@ -171,15 +171,23 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             try {
                 gd.guardartop(d);
                 
-                Socket socket = new Socket("172.20.10.3", 2222);
-                ObjectOutputStream falar = new ObjectOutputStream(socket.getOutputStream());
+                Socket newsocket = new Socket("172.20.10.3", 2222);
+                ObjectOutputStream falar = new ObjectOutputStream(newsocket.getOutputStream());
+                               
+                
                 falar.writeInt(4);
                 falar.flush();
                 falar.writeObject(s);
                 falar.flush();
-                socket.close();
-                falar.close();
-      
+                
+                ObjectInputStream ouvir = new ObjectInputStream (newsocket.getInputStream());
+                String teste ="";
+                teste = (String) ouvir.readObject();
+                
+               falar.close();
+               ouvir.close();
+               newsocket.close();
+                
             } catch (IOException ex) {
                 Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {

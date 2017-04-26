@@ -47,6 +47,7 @@ public class Connection extends Thread {
             
             
             int opcao = (int) ouvir.readInt();
+            
             System.out.println("Opção:" + opcao);
             
             if(opcao == 1){ //verificar datas no backup
@@ -98,6 +99,8 @@ public class Connection extends Thread {
             
              falar.writeObject(aux);
              falar.flush();
+             
+             System.out.println("ULTIMA LINHA OPCAO 2: " + tpbackup.toString());
  
         }
         
@@ -118,6 +121,8 @@ public class Connection extends Thread {
                     tpbackup.get(i).getNoticias().addAll(noticias_receber);
                      
              }
+             
+             System.out.println("OPCAO 3: " + tpbackup.toString());
         }
         
         if (opcao==4){ //adicionar topico no ficheiro de backup
@@ -129,6 +134,12 @@ public class Connection extends Thread {
              tp.setNomeTopico(ntopico);
              
              tpbackup.add(tp);
+             
+             gd.guardarbackup(tpbackup);
+             
+             falar.writeObject("ok");
+             
+             System.out.println("OPCAO 4: " + tpbackup.toString());
         }
                  
         
