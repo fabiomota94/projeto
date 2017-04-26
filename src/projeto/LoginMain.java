@@ -78,8 +78,8 @@ public class LoginMain implements Serializable {
             ServerRMIInterface si = (ServerRMIInterface) Naming.lookup("rmi://127.0.0.1:1099/ServerRMI");
 
             while (true) {
-                System.out.println("------Bemvindo------\n");
-                System.out.println("1 - Registar \n2 - Login \n3 - Subscribers sem registo \n0 - Sair");
+                System.out.println("--------Bemvindo--------");
+                System.out.println("| 1 - Registar \n| 2 - Login \n| 3 - Subscribers sem registo \n| 0 - Sair\n----------------------");
                 int opcaologin = Ler.umInt(); //Ler a opçao de cima
 
 
