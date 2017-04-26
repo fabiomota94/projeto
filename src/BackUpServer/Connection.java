@@ -71,6 +71,7 @@ public class Connection extends Thread {
             falar.writeObject(resultado_final);
             falar.flush();
 
+                System.out.println(resultado_final.toString());
             }
             
         if (opcao==2){ //verificar noticias de um publisher já em backup
