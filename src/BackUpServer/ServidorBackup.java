@@ -23,7 +23,7 @@ public class ServidorBackup {
         
         servers = new ServerSocket(2222);
         System.out.println("------Backup Server Online------\n");
-        System.out.println(topicosbackup.toString()); //verificação apenas, apagar
+        //System.out.println(topicosbackup.toString()); //verificação apenas, apagar
         System.out.println("");
         
         try {

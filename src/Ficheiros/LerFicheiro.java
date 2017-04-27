@@ -129,14 +129,13 @@ public class LerFicheiro {
     
      public int LerPort() throws IOException, ClassNotFoundException {
 
-         System.out.println("asdasd");
+
         FileInputStream stream = new FileInputStream("config.txt");
         InputStreamReader reader = new InputStreamReader(stream);
         BufferedReader br = new BufferedReader(reader);
         String linha = br.readLine();
-        System.out.println("1 "+ linha);
+
         String linha2 = br.readLine();
-        System.out.println("2 "+ linha2);
         
         int max = Integer.parseInt(linha2);
         

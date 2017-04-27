@@ -252,7 +252,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             if (d.get(i).getNometopico().equals(ntopico)) {
                 posicao = i;
                 d.get(i).addNovaNoticia(noticia);
-                //System.out.println("Adicionado ao Array D a noticia " + noticia.toString());
+
             }
         }
         try {
@@ -331,9 +331,9 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
 
         for (int i = 0; i < d.size(); i++) {
 
-            System.out.println("Noticia " + d.get(i).getNoticias());
+            //System.out.println("Noticia " + d.get(i).getNoticias());
             n = d.get(i).getNoticias();
-            System.out.println("N : " + n.toString());
+            //System.out.println("N : " + n.toString());
             for (int j = 0; j < n.size(); j++) {
 
                 if (n.get(j).getAutor() == id) {
@@ -480,14 +480,14 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
     {
         FileInputStream stream = null;
         try {
-            System.out.println("asdasd");
+           
             stream = new FileInputStream("config.txt");
             InputStreamReader reader = new InputStreamReader(stream);
             BufferedReader br = new BufferedReader(reader);
             String linha = br.readLine();
-            System.out.println("1 "+ linha);
+
             String linha2 = br.readLine();
-            System.out.println("2 "+ linha2);
+
             int max = Integer.parseInt(linha2);
             return max;
         } catch (FileNotFoundException ex) {
