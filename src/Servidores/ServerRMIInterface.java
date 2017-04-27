@@ -24,4 +24,6 @@ public interface ServerRMIInterface extends java.rmi.Remote{
    public boolean subscribe (String tp,int id, SubscriberInterface subs) throws java.rmi.RemoteException;
    public ArrayList<Noticias> MostarNoticiasEntreDatas (String nomeTopico, Date dataMaisRecente, Date dataMaisVelha)throws java.rmi.RemoteException;
    public void updatesubs (int id, SubscriberInterface subs)throws java.rmi.RemoteException;
+   public String ipdobackup()throws java.rmi.RemoteException;
+   public int portdobackup()throws java.rmi.RemoteException;
 }

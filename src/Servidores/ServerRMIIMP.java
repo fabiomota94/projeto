@@ -9,11 +9,17 @@ import Classes.Topico;
 import Ficheiros.GuardarDados;
 import Ficheiros.LerFicheiro;
 import Subs.SubscriberInterface;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import projeto.LoginMain;
@@ -163,10 +169,14 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             Topico c = new Topico();
             c.setNomeTopico(s);
             d.add(c);
+            
             try {
                 gd.guardartop(d);
-
-                Socket newsocket = new Socket("127.0.0.1", 2222);
+                LerFicheiro lf = new LerFicheiro();
+                String ip = lf.Lerip();
+                int port = lf.LerPort();
+               
+                Socket newsocket = new Socket(ip, port);
                 ObjectOutputStream falar = new ObjectOutputStream(newsocket.getOutputStream());
 
                 falar.writeInt(4);
@@ -273,7 +283,9 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
 
             if ((limite_max / 2) < d.get(posicao).getNoticias().size()) {
 
-                Socket s = new Socket("127.0.0.1", 2222);
+                String ip = lf.Lerip();
+                int port = lf.LerPort();    
+                Socket s = new Socket(ip,port);
                 ArrayList<Noticias> noticias_enviar = new ArrayList();
 
                 ObjectOutputStream falar = new ObjectOutputStream(s.getOutputStream());
@@ -333,7 +345,10 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         }
 
         try {
-            Socket s = new Socket("127.0.0.1", 2222);
+            String ip = lf.Lerip();
+            int port = lf.LerPort();    
+            Socket s = new Socket(ip,port);
+           
 
             ObjectOutputStream falar = new ObjectOutputStream(s.getOutputStream());
             ObjectInputStream ouvir = new ObjectInputStream(s.getInputStream());
@@ -396,7 +411,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             objeto.setIds(id);
             objeto.setSubscribers(subs);
             d.get(posicao).addSubcritores(objeto);
-            System.out.println("Nao devia chegar aqui!");
+           // System.out.println("Nao devia chegar aqui!");
             return true;
         } else {
             return false;
@@ -443,5 +458,49 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
 
         return noticiasResult;
     }
+    public String ipdobackup()throws java.rmi.RemoteException
+    {
+        File ficheiro1 = new File("config.txt");
+        String ip;
 
+        Scanner scanner;
+        try {
+            scanner = new Scanner(ficheiro1);
+            ip= scanner.next();
+            return ip;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+       
+      
+        return null;
+    }
+    public int portdobackup()throws java.rmi.RemoteException
+    {
+        FileInputStream stream = null;
+        try {
+            System.out.println("asdasd");
+            stream = new FileInputStream("config.txt");
+            InputStreamReader reader = new InputStreamReader(stream);
+            BufferedReader br = new BufferedReader(reader);
+            String linha = br.readLine();
+            System.out.println("1 "+ linha);
+            String linha2 = br.readLine();
+            System.out.println("2 "+ linha2);
+            int max = Integer.parseInt(linha2);
+            return max;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stream.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return 0;
+    }
 }

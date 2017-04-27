@@ -102,8 +102,11 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     dataMaisVelha = new Date(ano2, mes2, dia2, hrs2, min2);
 
                     noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);
-
-                    Socket subsSocket = new Socket("127.0.0.1", 2222);
+                    String ip = si.ipdobackup();
+                    int port = si.portdobackup();
+                   
+                    
+                    Socket subsSocket = new Socket(ip,port);
 
                     ObjectOutputStream falar = new ObjectOutputStream(subsSocket.getOutputStream());
 
@@ -240,8 +243,12 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     dataMaisVelha = new Date(ano2, mes2, dia2, hrs2, min2);
 
                     noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);
-
-                    Socket subsSocket = new Socket("127.0.0.1", 2222);
+                    String ip = si.ipdobackup();
+                    int port = si.portdobackup();
+                   
+                    
+                    Socket subsSocket = new Socket(ip,port);
+                    
 
                     ObjectOutputStream falar = new ObjectOutputStream(subsSocket.getOutputStream());
 

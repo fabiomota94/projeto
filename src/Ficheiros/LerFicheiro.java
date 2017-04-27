@@ -2,10 +2,12 @@
 package Ficheiros;
 
 import Classes.Topico;
+import java.io.BufferedReader;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -112,5 +114,35 @@ public class LerFicheiro {
 
         return max;
     }
+    
+    public String Lerip() throws IOException, ClassNotFoundException {
 
+        File ficheiro1 = new File("config.txt");
+        String ip;
+
+        Scanner scanner = new Scanner(ficheiro1);
+
+        ip= scanner.next();
+      
+        return ip;
+    }
+    
+     public int LerPort() throws IOException, ClassNotFoundException {
+
+         System.out.println("asdasd");
+        FileInputStream stream = new FileInputStream("config.txt");
+        InputStreamReader reader = new InputStreamReader(stream);
+        BufferedReader br = new BufferedReader(reader);
+        String linha = br.readLine();
+        System.out.println("1 "+ linha);
+        String linha2 = br.readLine();
+        System.out.println("2 "+ linha2);
+        
+        int max = Integer.parseInt(linha2);
+        
+        
+
+       
+        return max;
+    }
 }

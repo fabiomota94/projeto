@@ -110,8 +110,9 @@ public class Connection extends Thread {
                     }
 
                 }
-
+                gd.guardarbackup(tpbackup);
                 System.out.println("OPCAO 3: " + tpbackup.toString());
+                
             }
 
             if (opcao == 4) { //adicionar topico no ficheiro de backup
