@@ -1,4 +1,3 @@
-
 package Subs;
 
 import Classes.Noticias;
@@ -13,7 +12,6 @@ import java.util.Date;
 import projeto.Ler;
 
 // @authors: Tiago Jesus – a30961, João Saraiva, – a33345 Fábio Mota – a34693 UBI 2016/2017-SD
-
 public class Subscriber extends java.rmi.server.UnicastRemoteObject implements SubscriberInterface, Serializable {
 
     private int id;
@@ -105,21 +103,19 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
 
                     noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);
 
-                    Socket subsSocket = new Socket("172.0.0.1", 2222);
+                    Socket subsSocket = new Socket("127.0.0.1", 2222);
 
                     ObjectOutputStream falar = new ObjectOutputStream(subsSocket.getOutputStream());
-                    
+
                     falar.writeInt(1);
                     falar.flush();
-                    
+
                     falar.writeObject(nomeTopico1);
                     falar.flush();
 
-                    
                     falar.writeObject(dataMaisRecente);
                     falar.flush();
 
-                  
                     falar.writeObject(dataMaisVelha);
                     falar.flush();
 
@@ -128,9 +124,9 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
 
                     noticiasResultado_backup = (ArrayList<Noticias>) ouvir.readObject();
 
-                ouvir.close();
-                falar.close();
-                subsSocket.close();
+                    ouvir.close();
+                    falar.close();
+                    subsSocket.close();
 
                     if (noticiasResultado.isEmpty() && noticiasResultado_backup.isEmpty()) {
                         System.out.println("Sem noticias para serem mostradas entre essas datas.");
@@ -147,11 +143,13 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     System.out.println("Indique o topico");
                     String nometopico = Ler.umaString();
                     noticia = si.UltimaNoticia(nometopico);
-                    
-                    if(noticia!=null)
-                    System.out.println(noticia.toString());
-                    else
+
+                    if (noticia != null) {
+                        System.out.println(noticia.toString());
+
+                    } else {
                         System.out.println("Topico Inválido ou sem noticas ainda!");
+                    }
                 } else if (opcao == 0) {
                     break;
                 }
@@ -165,8 +163,6 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
 
         try {
 
-            
-
             Subscriber subupdate = new Subscriber();
             si.updatesubs(idi, subupdate);
 
@@ -179,16 +175,17 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                 System.out.println("3 - Consultar a Ultima noticia do Topico");
                 System.out.println("0 - Sair");
                 int opcao = Ler.umInt();
-                
+
                 if (opcao == 1) {
                     System.out.println("1 - Topico que pretende subscrever?");
                     String nt = Ler.umaString();
                     Subscriber sub = new Subscriber();
 
-                    if(si.subscribe(nt, idi, (SubscriberInterface) sub))
+                    if (si.subscribe(nt, idi, (SubscriberInterface) sub)) {
                         System.out.println("Topico Subscrito");
-                    else
+                    } else {
                         System.out.println("Topico já subscrito ou não existe");
+                    }
 
                 } else if (opcao == 2) {
 
@@ -244,21 +241,19 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
 
                     noticiasResultado = si.MostarNoticiasEntreDatas(nomeTopico1, dataMaisRecente, dataMaisVelha);
 
-                    Socket subsSocket = new Socket("172.0.0.1", 2222);
+                    Socket subsSocket = new Socket("127.0.0.1", 2222);
 
                     ObjectOutputStream falar = new ObjectOutputStream(subsSocket.getOutputStream());
-                    
+
                     falar.writeInt(1);
                     falar.flush();
-                    
+
                     falar.writeObject(nomeTopico1);
                     falar.flush();
 
-                    
                     falar.writeObject(dataMaisRecente);
                     falar.flush();
 
-                  
                     falar.writeObject(dataMaisVelha);
                     falar.flush();
 
@@ -286,10 +281,11 @@ public class Subscriber extends java.rmi.server.UnicastRemoteObject implements S
                     System.out.println("Indique o topico");
                     String nometopico = Ler.umaString();
                     noticia = si.UltimaNoticia(nometopico);
-                    if(noticia!=null)
+                    if (noticia != null) {
                         System.out.println(noticia.toString());
-                    else
+                    } else {
                         System.out.println("Topico Inválido ou sem noticas ainda!");
+                    }
                 } else if (opcao == 0) {
                     break;
                 }

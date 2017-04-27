@@ -13,7 +13,6 @@ import java.util.Date;
 import projeto.Ler;
 
 // @authors: Tiago Jesus – a30961, João Saraiva, – a33345 Fábio Mota – a34693 UBI 2016/2017-SD
-
 public class Publisher {
 
     private int id;
@@ -26,7 +25,6 @@ public class Publisher {
         this.si = si;
         this.nome = nome;
         ArrayList<Topico> consultar = null;
-
 
         try {
 
@@ -63,13 +61,11 @@ public class Publisher {
                         s2 = Ler.umaNoticia();
                         Date data = new Date();
 
-                        
                         novanoticia.setData(data);
                         novanoticia.setAutor(id);
                         novanoticia.setConteudo(s2);
                         si.addNoticia(novanoticia, s);
                         System.out.println("Noticia adcionada com sucesso por: " + nome + " em " + data);
-                        
 
                     } else {
                         System.out.println("Topico não existe");

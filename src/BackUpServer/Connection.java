@@ -1,4 +1,3 @@
-
 package BackUpServer;
 
 import Classes.Noticias;
@@ -15,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 // @authors: Tiago Jesus – a30961, João Saraiva, – a33345 Fábio Mota – a34693 UBI 2016/2017-SD
-
 public class Connection extends Thread {
 
     private Socket S = null;
@@ -37,116 +35,105 @@ public class Connection extends Thread {
 
     public void run() {
 
-        
-        
-        
         try {
-            
+
             ObjectInputStream ouvir = new ObjectInputStream(S.getInputStream());
             ObjectOutputStream falar = new ObjectOutputStream(S.getOutputStream());
-            
-            
+
             int opcao = (int) ouvir.readInt();
-            
+
             System.out.println("Opção:" + opcao);
-            
-            if(opcao == 1){ //verificar datas no backup
-            
-            
-            String nomeTopico = (String) ouvir.readObject(); //ouve o nome do topico
-            
-            ArrayList<Noticias> resultado_filtrado = filtraNoticias_de_um_topico(nomeTopico);
-            ArrayList<Noticias> resultado_final = new ArrayList();
-            
-            
-            Date dataRecente = (Date) ouvir.readObject(); //ouve a Data 
 
-            Date dataVelha = (Date) ouvir.readObject(); //Ouve a segunda data 
-                  
+            if (opcao == 1) { //verificar datas no backup
 
-            resultado_final = MostarNoticiasEntreData0_backups(resultado_filtrado, dataRecente, dataVelha);
+                String nomeTopico = (String) ouvir.readObject(); //ouve o nome do topico
 
-            // escreve as noticias q tem a escrever 
-            
-            falar.writeObject(resultado_final);
-            falar.flush();
+                ArrayList<Noticias> resultado_filtrado = filtraNoticias_de_um_topico(nomeTopico);
+                ArrayList<Noticias> resultado_final = new ArrayList();
+
+                Date dataRecente = (Date) ouvir.readObject(); //ouve a Data 
+
+                Date dataVelha = (Date) ouvir.readObject(); //Ouve a segunda data 
+
+                resultado_final = MostarNoticiasEntreData0_backups(resultado_filtrado, dataRecente, dataVelha);
+
+                // escreve as noticias q tem a escrever 
+                falar.writeObject(resultado_final);
+                falar.flush();
 
                 System.out.println(resultado_final.toString());
             }
-            
-        if (opcao==2){ //verificar noticias de um publisher já em backup
-             
-            ArrayList<Noticias> aux = new ArrayList();
-            ArrayList<Noticias> aux1 = null;
-             
-             int id = ouvir.readInt();
-             
-             for (int i = 0; i < tpbackup.size(); i++) {
-                 
-                 aux1 = tpbackup.get(i).getNoticias();
-                 System.out.println(aux1.toString());
-                 if(!aux1.isEmpty()){
-                    for (int j = 0; j < aux1.size(); j++) {
-                     
-                        if(aux1.get(j).getAutor()==id){
-                     
-                        aux.add(aux1.get(j));
+
+            if (opcao == 2) { //verificar noticias de um publisher já em backup
+
+                ArrayList<Noticias> aux = new ArrayList();
+                ArrayList<Noticias> aux1 = null;
+
+                int id = ouvir.readInt();
+
+                for (int i = 0; i < tpbackup.size(); i++) {
+
+                    aux1 = tpbackup.get(i).getNoticias();
+                    System.out.println(aux1.toString());
+                    if (!aux1.isEmpty()) {
+                        for (int j = 0; j < aux1.size(); j++) {
+
+                            if (aux1.get(j).getAutor() == id) {
+
+                                aux.add(aux1.get(j));
+                            }
+
                         }
-                     
                     }
-                }     
-                 
+
+                }
+
+                falar.writeObject(aux);
+                falar.flush();
+
+                System.out.println("ULTIMA LINHA OPCAO 2: " + tpbackup.toString());
+
             }
-            
-             falar.writeObject(aux);
-             falar.flush();
-             
-             System.out.println("ULTIMA LINHA OPCAO 2: " + tpbackup.toString());
- 
-        }
-        
-        if (opcao==3){ //adicionar noticias no backup
-             
-            
-             
-             String ntopico = (String) ouvir.readObject();
-             
-             ArrayList<Noticias> noticias_receber = new ArrayList();
-             
-             noticias_receber = (ArrayList<Noticias>) ouvir.readObject();
-             
-             for (int i = 0; i < tpbackup.size(); i++) {
-                 
-                 if(tpbackup.get(i).getNometopico().equals(ntopico))
-                     
-                    tpbackup.get(i).getNoticias().addAll(noticias_receber);
-                     
-             }
-             
-             System.out.println("OPCAO 3: " + tpbackup.toString());
-        }
-        
-        if (opcao==4){ //adicionar topico no ficheiro de backup
-             
-             String ntopico = (String) ouvir.readObject();
-             
-             Topico tp = new Topico();
-             
-             tp.setNomeTopico(ntopico);
-             
-             tpbackup.add(tp);
-             
-             gd.guardarbackup(tpbackup);
-             
-             falar.writeObject("ok");
-             
-             System.out.println("OPCAO 4: " + tpbackup.toString());
-        }
-                 
-        
-        ouvir.close();
-        falar.close();
-        S.close();
+
+            if (opcao == 3) { //adicionar noticias no backup
+
+                String ntopico = (String) ouvir.readObject();
+
+                ArrayList<Noticias> noticias_receber = new ArrayList();
+
+                noticias_receber = (ArrayList<Noticias>) ouvir.readObject();
+
+                for (int i = 0; i < tpbackup.size(); i++) {
+
+                    if (tpbackup.get(i).getNometopico().equals(ntopico)) {
+                        tpbackup.get(i).getNoticias().addAll(noticias_receber);
+                    }
+
+                }
+
+                System.out.println("OPCAO 3: " + tpbackup.toString());
+            }
+
+            if (opcao == 4) { //adicionar topico no ficheiro de backup
+
+                String ntopico = (String) ouvir.readObject();
+
+                Topico tp = new Topico();
+
+                tp.setNomeTopico(ntopico);
+
+                tpbackup.add(tp);
+
+                gd.guardarbackup(tpbackup);
+
+                falar.writeObject("ok");
+
+                System.out.println("OPCAO 4: " + tpbackup.toString());
+            }
+
+            ouvir.close();
+            falar.close();
+            S.close();
 
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
@@ -156,21 +143,17 @@ public class Connection extends Thread {
 
     public ArrayList<Noticias> filtraNoticias_de_um_topico(String nomeTopico) {
 
-        //System.out.println("NOME TOPICO "  + nomeTopico );
         ArrayList<Noticias> resultado = new ArrayList();
 
         for (int i = 0; i < tpbackup.size(); i++) {
-            //  System.out.println("SOUT DENTRO DA FUNCAO " + tpbackup.get(i).getNometopico());
             if (tpbackup.get(i).getNometopico().equals(nomeTopico)) {
 
-                //System.out.println("DEVERIA PASSAR NO if ");
                 System.out.println(tpbackup.get(i).getNoticias().size());
 
                 for (int j = 0; j < tpbackup.get(i).getNoticias().size(); j++) {
 
                     resultado.add(tpbackup.get(i).getNoticias().get(j));
 
-                    //  System.out.println("PRINT TESTE " + tpbackup.get(i).getNoticias().get(j));
                 }
 
             }

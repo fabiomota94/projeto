@@ -1,4 +1,3 @@
-
 package projeto;
 
 import Ficheiros.GuardarDados;
@@ -11,9 +10,7 @@ import java.io.Serializable;
 import static java.lang.System.exit;
 import java.rmi.Naming;
 
-
 // @authors: Tiago Jesus – a30961, João Saraiva, – a33345 Fábio Mota – a34693 UBI 2016/2017-SD
- 
 public class LoginMain implements Serializable {
 
     public int tipo;
@@ -82,13 +79,12 @@ public class LoginMain implements Serializable {
                 System.out.println("| 1 - Registar \n| 2 - Login \n| 3 - Subscribers sem registo \n| 0 - Sair\n----------------------");
                 int opcaologin = Ler.umInt(); //Ler a opçao de cima
 
-
                 if (opcaologin == 1) { //Registar
                     System.out.println("------Registar------\n");
                     int tipo;
                     String user = "";
                     String pw = "";
-                    
+
                     System.out.println("1 - Publisher \n2 - Subscribers");
                     tipo = Ler.umInt();
 

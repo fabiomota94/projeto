@@ -1,4 +1,3 @@
-
 package Servidores;
 
 import java.rmi.RemoteException;
@@ -20,7 +19,6 @@ import java.util.logging.Logger;
 import projeto.LoginMain;
 
 // @authors: Tiago Jesus – a30961, João Saraiva, – a33345 Fábio Mota – a34693 UBI 2016/2017-SD
-
 public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterface {
 
     public static ArrayList<Topico> d = new ArrayList();
@@ -167,35 +165,32 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             d.add(c);
             try {
                 gd.guardartop(d);
-                
-                Socket newsocket = new Socket("172.0.0.1", 2222);
+
+                Socket newsocket = new Socket("127.0.0.1", 2222);
                 ObjectOutputStream falar = new ObjectOutputStream(newsocket.getOutputStream());
-                               
-                
+
                 falar.writeInt(4);
                 falar.flush();
                 falar.writeObject(s);
                 falar.flush();
-                
-                ObjectInputStream ouvir = new ObjectInputStream (newsocket.getInputStream());
-                String teste ="";
+
+                ObjectInputStream ouvir = new ObjectInputStream(newsocket.getInputStream());
+                String teste = "";
                 teste = (String) ouvir.readObject();
-                
-               falar.close();
-               ouvir.close();
-               newsocket.close();
-                
+
+                falar.close();
+                ouvir.close();
+                newsocket.close();
+
             } catch (IOException ex) {
                 Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            
             return false;
 
         } else {
-            
 
             return true;
 
@@ -264,7 +259,7 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
         for (int i = 0; i < subscribersn.size(); i++) {
 
             try {
-          //      System.out.println("A enviar para o subs " + subscribersn.get(i).toString());
+                //      System.out.println("A enviar para o subs " + subscribersn.get(i).toString());
                 subscribersn.get(i).getSubscribers().EscreverNoticia(noticia);
             } catch (Exception e) {
                 System.out.println("Cliente offline");
@@ -273,46 +268,45 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
 
         //verificação de backup
         int posicao2 = -1;
-        
-            try {
-                
-            if ((limite_max/2)<d.get(posicao).getNoticias().size()){
-                
-                Socket s = new Socket("172.0.0.1", 2222);
+
+        try {
+
+            if ((limite_max / 2) < d.get(posicao).getNoticias().size()) {
+
+                Socket s = new Socket("127.0.0.1", 2222);
                 ArrayList<Noticias> noticias_enviar = new ArrayList();
-            
+
                 ObjectOutputStream falar = new ObjectOutputStream(s.getOutputStream());
-                ObjectInputStream ouvir = new ObjectInputStream (s.getInputStream());
-            
-   
+                ObjectInputStream ouvir = new ObjectInputStream(s.getInputStream());
+
                 falar.writeInt(3);
                 falar.flush();
-                
+
                 falar.writeObject(ntopico);
                 falar.flush();
-            
-                while (d.get(posicao).getNoticias().size() > (limite_max/2)) {
-                            noticias_enviar.add(d.get(posicao).getNoticias().get(0));
-                            d.get(posicao).getNoticias().remove(0);
-                            gd.guardartop(d);
-                           
+
+                while (d.get(posicao).getNoticias().size() > (limite_max / 2)) {
+                    noticias_enviar.add(d.get(posicao).getNoticias().get(0));
+                    d.get(posicao).getNoticias().remove(0);
+                    gd.guardartop(d);
+
                 }
-                
+
                 falar.writeObject(noticias_enviar);
                 falar.flush();
-                
+
                 s.close();
                 falar.close();
                 ouvir.close();
-            
+
             }
-           
+
         } catch (IOException ex) {
             Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+
         return true;
     }
 
@@ -320,10 +314,8 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
 
         //System.out.println("Mostrar Topicos");
         //System.out.println(d.toString());
-
         ArrayList<Noticias> n;
         ArrayList<Noticias> n1 = new ArrayList();
-
 
         for (int i = 0; i < d.size(); i++) {
 
@@ -339,29 +331,28 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
             }
 
         }
-        
+
         try {
             Socket s = new Socket("127.0.0.1", 2222);
-            
+
             ObjectOutputStream falar = new ObjectOutputStream(s.getOutputStream());
-            ObjectInputStream ouvir = new ObjectInputStream (s.getInputStream());
+            ObjectInputStream ouvir = new ObjectInputStream(s.getInputStream());
             ArrayList<Noticias> n3 = new ArrayList();
-                    
+
             falar.writeInt(2);
             falar.flush();
             falar.writeInt(id);
             falar.flush();
-            
+
             n3 = (ArrayList<Noticias>) ouvir.readObject();
-            
+
             n1.addAll(n3);
-            
+
         } catch (IOException ex) {
             Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ServerRMIIMP.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
 
         return n1;
     }
@@ -381,10 +372,10 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
     }
 
     public boolean subscribe(String tp, int id, SubscriberInterface subs) throws java.rmi.RemoteException {
-        
+
         Subscritores objeto = new Subscritores();
         ArrayList<Subscritores> array = null;
-        int posicao=-1;
+        int posicao = -1;
 
         for (int i = 0; i < d.size(); i++) {
 
@@ -394,24 +385,22 @@ public class ServerRMIIMP extends UnicastRemoteObject implements ServerRMIInterf
 
                 for (int j = 0; j < array.size(); j++) {
                     if (array.get(j).getIds() == id) {
-                        return false;   
-                        
+                        return false;
+
                     }
                 }
-            posicao = i;   
+                posicao = i;
             }
         }
-            if (posicao!=-1){
-                objeto.setIds(id);
-                objeto.setSubscribers(subs);
-                d.get(posicao).addSubcritores(objeto);
-                System.out.println("Nao devia chegar aqui!");
-                return true;
-            }
-            else 
-                return false;
-            
-            
+        if (posicao != -1) {
+            objeto.setIds(id);
+            objeto.setSubscribers(subs);
+            d.get(posicao).addSubcritores(objeto);
+            System.out.println("Nao devia chegar aqui!");
+            return true;
+        } else {
+            return false;
+        }
 
     }
 
